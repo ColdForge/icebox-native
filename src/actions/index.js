@@ -10,18 +10,32 @@ export const authError = (error) => ({
 
 export const signinUser = ({ email, password }) => (
 	(dispatch) => {
-		axios.post(`${API_URL}/user/signin`, { email, password })
-			.then(response => {
-				// console.log('response inside signinUser : ', response);
-				dispatch({ type: TYPES.AUTHORIZE_USER });
-				dispatch({ type: TYPES.GET_USER_INFO, payload: response.data });
-				dispatch({ type: TYPES.POPULATE_ICEBOX, payload: response.data.contents });
-				localStorage.setItem('token', response.data.token);
-				browserHistory.push('/icebox');
+		fetch(`${API_URL}/user/signin`, {
+			method: 'POST',
+			body: JSON.stringify({
+				email,
+				password,
 			})
-			.catch(response => {
-				dispatch(authError(response));
-			});
+		})
+		.then(rawResponse => rawResponse.json())
+		.then(response => {
+			console.log('response is : ',response);
+		})
+		.catch(error => {
+			dispatch(authError(error));
+		});
+		// axios.post(`${API_URL}/user/signin`, { email, password })
+		// 	.then(response => {
+		// 		// console.log('response inside signinUser : ', response);
+		// 		dispatch({ type: TYPES.AUTHORIZE_USER });
+		// 		dispatch({ type: TYPES.GET_USER_INFO, payload: response.data });
+		// 		dispatch({ type: TYPES.POPULATE_ICEBOX, payload: response.data.contents });
+		// 		localStorage.setItem('token', response.data.token);
+		// 		browserHistory.push('/icebox');
+		// 	})
+		// 	.catch(response => {
+		// 		dispatch(authError(response));
+		// 	});
 	}
 );
 

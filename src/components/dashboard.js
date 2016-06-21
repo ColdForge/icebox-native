@@ -7,38 +7,25 @@ import {
 } from 'react-native';
 import Icebox from './icebox';
 import Recipes from './recipes';
+import { Actions } from "react-native-router-flux";
 
 class Dashboard extends Component {
 	componentDidMount() {
 		console.log('Dashboard rendered!')
 	}
 
-  goToIcebox(){
-    this.props.navigator.push({
-      component: Icebox,
-      title: 'Icebox'
-    })
-  }
-
-  goToRecipes(){
-    this.props.navigator.push({
-      component: Recipes,
-      title: 'Recipes'
-    })
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <TouchableHighlight
             style={styles.iceboxButton}
-            onPress={this.goToIcebox.bind(this)}
+            onPress={Actions.icebox}
             underlayColor="#88D4F5">
               <Text style={styles.buttonText}>My Icebox</Text>
         </TouchableHighlight>
         <TouchableHighlight
             style={styles.recipesButton}
-            onPress={this.goToRecipes.bind(this)}
+            onPress={Actions.recipes}
             underlayColor="#E39EBF">
               <Text style={styles.buttonText}>My Recipes</Text>
         </TouchableHighlight>
