@@ -10,10 +10,9 @@ import {
 import Dimensions from 'Dimensions';
 import { Actions } from "react-native-router-flux";
 
-
 const windowSize = Dimensions.get('window');
 
-class Login extends Component {
+class Signup extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -78,13 +77,13 @@ class Login extends Component {
 			    	onPress={this.handleSubmit.bind(this)}
 			    	underlayColor="white"
 			    >
-			    	<Text style={styles.blackFont}>Sign In</Text>
+			    	<Text style={styles.blackFont}>Sign Up</Text>
 			    </TouchableHighlight>
 			    <TouchableHighlight
 			    	style={styles.signup}
-			    	onPress={Actions.signup}
+			    	onPress={Actions.login}
 			    >
-			        <Text style={styles.greyFont}>Don't have an account?<Text style={styles.whiteFont}>  Sign Up</Text></Text>
+			        <Text style={styles.greyFont}>Have an account?<Text style={styles.whiteFont}>  Login</Text></Text>
 			    </TouchableHighlight>
 			</View>
 		);
@@ -169,4 +168,4 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default Login;
+export default Signup;

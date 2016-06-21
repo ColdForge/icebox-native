@@ -6,41 +6,42 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
+import {
+	Scene,
+	Reducer,
+	Router,
+	Switch,
+	TabBar,
+	Modal,
+	Schema,
+	Actions
+} from 'react-native-router-flux'
+import { Provider } from 'react-redux';
+import configureStore from './state/configureStore';
+const store = configureStore();
+
 import Login from './containers/login';
-// import AppBar from 'material-ui-native/lib/app-bar';
+import Signup from './containers/signup';
+import Dashboard from './components/dashboard';
+import Icebox from './components/icebox';
+import Recipes from './components/recipes';
 
 class iceboxNative extends Component {
-	componentDidMount(){
-		console.log('iceboxNative rendered in src/index!')
-	}
 
-	configureScene(route, routeStack){
-	   return Navigator.SceneConfigs.PushFromRight 
-	}
-
-  renderScene(route, navigator){
-    return <route.component navigator={navigator} {...route.passProps} />
-  }
-
-  handleBackAction(){
-
-  }
   
   render(){
     return (
-    	<View style={styles.container}>
-    		<View style={styles.appbar}>
-    			
-    		</View>
-    		<View style={styles.navigator}>
-    			<Navigator
-    				configureScene={this.configureScene}
-    			  style={styles.container}
-    			  renderScene={this.renderScene}
-    			  initialRoute={{ component: Login }}
-    			/>
-    		</View>
-    	</View>
+    	<Provider store={store}>
+    		<Router>
+    			<Scene key="root" hideNavBar hideTabBar>
+    				<Scene key="login" component={Login} title="Login" />
+    				<Scene key="signup" component={Signup} title="Sign Up" />
+    				<Scene key="dashboard" component={Dashboard} title="Dashboard" />
+    				<Scene key="icebox" component={Icebox} />
+    				<Scene key="recipes" component={Recipes} />
+    			</Scene>
+    		</Router>
+    	</Provider>
     );
   }
 }

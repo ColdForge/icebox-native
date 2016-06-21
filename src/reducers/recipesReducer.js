@@ -1,5 +1,5 @@
 import { GET_RECIPES, GET_RECIPE_SUGGESTIONS, SET_CHOSEN_RECIPE, CLEAR_CHOSEN_RECIPE } from '../constants/actions';
-import { v4 } from 'node-uuid';
+import { v4 } from 'react-native-uuid';
 
 const INITIAL_STATE = {
 	suggestions: [],

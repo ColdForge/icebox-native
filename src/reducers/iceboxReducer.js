@@ -4,7 +4,7 @@ import {
 	REMOVE_ITEMS,
 	CLARIFY_ITEMS,
 	} from '../constants/actions';
-import { v4 } from 'node-uuid';
+import { v4 } from 'react-native-uuid';
 
 const applyFoodGroupIcon = (item) => {
 	switch (item.foodGroup.toLowerCase()) {

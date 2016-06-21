@@ -1,20 +1,21 @@
+import { AsyncStorage } from 'react-native';
+import SimpleStore from 'react-native-simple-store';
+
 export const loadState = () => {
-  try {
-    const serializedState = localStorage.getItem('state');
-    if (serializedState === null) {
+  AsyncStorage.getItem('state', (err,result) => {
+    if (result === null) {
       return undefined;
     }
-    return JSON.parse(serializedState);
-  } catch (err) {
-    return undefined;
-  }
+    if(err){
+      return undefined;
+    }
+    return JSON.parse(result);
+  });
 };
 
 export const saveState = (state) => {
-  try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem('state', serializedState);
-  } catch (err) {
-    // Ignore write errors.
-  }
+  const serializedState = JSON.stringify(state);
+  AsyncStorage.setItem('state', serializedState, (err) => {
+    console.log('saveState error of : ',err);
+  });
 };
