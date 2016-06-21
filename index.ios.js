@@ -12,7 +12,7 @@ import {
   View
 } from 'react-native';
 
-class iceboxIOS extends Component {
+class iceboxNative extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('iceboxIOS', () => iceboxIOS);
+AppRegistry.registerComponent('iceboxNative', () => iceboxNative);
