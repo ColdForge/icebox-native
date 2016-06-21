@@ -8,6 +8,8 @@ import {
   Image
 } from 'react-native';
 import Dimensions from 'Dimensions';
+import Dashboard from '../components/dashboard';
+
 const windowSize = Dimensions.get('window');
 
 class Login extends Component {
@@ -20,8 +22,11 @@ class Login extends Component {
 	}
 
 	handleSubmit(){
-
+		this.props.navigator.push({
+			component: Dashboard
+		})
 	}
+
 	handleUsernameInput(e){
 		console.log('handleUsernameInput e.nativeEvent.text is : ',e.nativeEvent.text)
 		this.setState({
