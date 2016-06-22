@@ -6,7 +6,8 @@ import {
   ScrollView,
   Image,
   TouchableHighlight,
-  Linking
+  Linking,
+  AlertIOS
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -72,6 +73,16 @@ const styles = StyleSheet.create({
 
 const RecipeSuggestionListItem = ({ image, likes, recipe, title, chooseRecipe }) => {
 	const recipeUrl = image.replace('recipeImages/','').replace('.jpg','');
+	const handleChoice = () => {
+		AlertIOS.alert(
+			'Choose this recipe?',
+			'You won\'t be able to change your choice!',
+			[
+			  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+			  {text: 'OK', onPress: () => chooseRecipe({ recipe }), style: 'default'},
+			]
+		);
+	}
 	return (
 		<View style={styles.row}>
 			<View style={styles.imageContainer}>
@@ -93,7 +104,7 @@ const RecipeSuggestionListItem = ({ image, likes, recipe, title, chooseRecipe })
 			  </TouchableHighlight>
 			  <TouchableHighlight
 			  	style={styles.button}
-			  	onPress={chooseRecipe}
+			  	onPress={handleChoice}
 			  >
 			  	<Text style={styles.buttonText}>Choose this recipe!</Text>
 			  </TouchableHighlight>
