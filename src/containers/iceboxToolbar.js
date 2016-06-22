@@ -10,15 +10,25 @@ import {
   TouchableHighlight,
   Image
 } from 'react-native';
+import SearchBar from 'react-native-search-bar';
+
 
 class IceboxToolbar extends Component {
 	constructor(props){
 		super(props);
-		this.submitFoods = this.submitFoods.bind(this);
+
+		this.handleSearch = this.handleSearch.bind(this);
+		this.handleCancel = this.handleCancel.bind(this);
+		// this.props.submitFoods = this.props.submitFoods.bind(this);
 	}
 
-	handleSearch(event) {
-		this.props.setIceboxSearch(event.target.value);
+	handleSearch(e){
+		console.log('handleSearch called in IceboxToolbar with e of : ',e);
+		this.props.setIceboxSearch(e);
+	}
+
+	handleCancel(){
+		this.props.clearIceboxSearch();
 	}
 
 	changeSortDirection(){
@@ -35,32 +45,14 @@ class IceboxToolbar extends Component {
 		console.log('Submit foods is firing', foodItems);
 	}
 
-	// renderClearSearchButton() {
-	// 	if(this.props.iceboxSearch){
-	// 		return (
-	// 			<IconButton
-	// 				tooltip="Clear Search"
-	// 				style={styles.button}
-	// 				className="icebox-toolbar-clear-search"
-	// 				onTouchTap={() => this.props.clearIceboxSearch()}
-	// 			>
-	// 				<SvgIcon className="icebox-toolbar-clear-search-svgicon">
-	// 					<path d={ICONS.ClearSearch.d} />
-	// 				</SvgIcon>
-	// 			</IconButton>
-	// 		);
-	// 	} else {
-	// 		return (
-	// 			<div style={styles.buttonPlaceholder} />
-	// 		);
-	// 	}
-	// }
-
 	render() {
 		return (
-			<View>
-				<Text>Icebox Toolbar</Text>
-			</View>
+			<SearchBar
+				ref='searchBar'
+				placeholder='Search for items'
+				onChangeText={this.handleSearch}
+				onCancelButtonPress={this.handleCancel}
+			/>
 		);
 	}
 }
