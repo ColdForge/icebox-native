@@ -137,32 +137,45 @@ export const addIceboxItems = ({ foodItems }) => (
 
 export const getRecipes = () => (
 	(dispatch) => {
-		axios.get(`${API_URL}/api/icebox/pastRecipes`, {
-			headers: { authorization: localStorage.getItem('token') },
+		const token = getToken();
+		fetch(`${API_URL}/api/icebox/pastRecipes`, {
+			method: 'GET',
+			headers: {
+				'authorization': token,
+				'Accept'      : 'application/json',
+				'Content-Type': 'application/json'
+			}
 		})
-			.then(response => {
-				dispatch({ type: TYPES.GET_RECIPES, payload: response.data });
-			})
-			.catch(response => (
-				response
-				// console.log('error in chooseRecipe, response of : ',response);
-			));
+		.then(rawResponse => rawResponse.json())
+		.then(response => {
+			console.log('response from getRecipes : ',response);
+			// dispatch({ type: TYPES.GET_RECIPES, payload: response.data });
+		})
+		.catch(error => {
+			console.log('error on getRecipes fetch of : ',error);
+		});
 	}
 );
 
 export const getRecipeSuggestions = () => (
 	(dispatch) => {
-		axios.get(`${API_URL}/api/icebox/recipes`, {
-			headers: { authorization: localStorage.getItem('token') },
+		const token = getToken();
+		fetch(`${API_URL}/api/icebox/recipes`, {
+			method: 'GET',
+			headers: {
+				'authorization': token,
+				'Accept'      : 'application/json',
+				'Content-Type': 'application/json'
+			}
 		})
-			.then(response => {
-				// console.log('response from getRecipeSuggestions is : ', response);
-				dispatch({ type: TYPES.GET_RECIPE_SUGGESTIONS, payload: response.data });
-			})
-			.catch(response => (
-				response
-				// console.log('error in chooseRecipe, response of : ',response);
-			));
+		.then(rawResponse => rawResponse.json())
+		.then(response => {
+			console.log('response from getRecipes : ',response);
+			// dispatch({ type: TYPES.GET_RECIPE_SUGGESTIONS, payload: response.data });
+		})
+		.catch(error => {
+			console.log('error on getRecipeSuggestions fetch of : ',error);
+		});
 	}
 );
 
