@@ -25,11 +25,20 @@ import Signup from './containers/signup';
 import Dashboard from './components/dashboard';
 import Icebox from './components/icebox';
 import Recipes from './components/recipes';
-
+import RecipeSuggestionList from './containers/recipeSuggestionList';
+import RecipeList from './containers/recipeList';
 
 class Right extends Component {
   render(){
 		return <Text style={styles.back}>Back</Text>;
+  }
+}
+
+class TabIcon extends React.Component {
+  render(){
+    return (
+      <Text style={{color: this.props.selected ? "red" :"black"}}>{this.props.title}</Text>
+    );
   }
 }
 
@@ -43,7 +52,10 @@ class iceboxNative extends Component {
     				<Scene key="signup" component={Signup} title="Sign Up" />
     				<Scene key="dashboard" component={Dashboard} title="Dashboard" />
     				<Scene key="icebox" hideNavBar={false} component={Icebox} />
-    				<Scene key="recipes" hideNavBar={false} component={Recipes} />
+    				<Scene key="recipes" tabs={true} hideNavBar={false} >
+              <Scene key="recipeSuggestionsTab" initial={true} component={RecipeSuggestionList} title="Suggestions" icon={TabIcon} />
+              <Scene key="pastSuggestionsTab" component={RecipeList} title="Past Recipes" icon={TabIcon} />
+            </Scene>
     			</Scene>
     		</Router>
     	</Provider>
