@@ -5,17 +5,15 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import Dashboard from './dashboard';
+import IceboxToolbar from '../containers/iceboxToolbar';
+import VisibleIceboxList from '../containers/visibleIceboxList';
 
 class Icebox extends Component {
-	componentDidMount() {
-		console.log('Icebox component rendered!')
-	}
-
   render() {
     return (
       <View style={styles.container}>
-        <Text>Icebox Component</Text>
+        <IceboxToolbar />
+        <VisibleIceboxList />
       </View>
     )
   }
