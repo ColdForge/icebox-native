@@ -25,7 +25,8 @@ import Signup from './containers/signup';
 import Dashboard from './components/dashboard';
 import Icebox from './components/icebox';
 import Recipes from './components/recipes';
-
+import RecipeSuggestionList from './containers/recipeSuggestionList';
+import RecipeList from './containers/recipeList';
 
 class Right extends Component {
   render(){
@@ -43,7 +44,10 @@ class iceboxNative extends Component {
     				<Scene key="signup" component={Signup} title="Sign Up" />
     				<Scene key="dashboard" component={Dashboard} title="Dashboard" />
     				<Scene key="icebox" hideNavBar={false} component={Icebox} />
-    				<Scene key="recipes" hideNavBar={false} component={Recipes} />
+    				<Scene key="recipes" tabs={true} hideNavBar={false} >
+              <Scene key="recipeSuggestionsTab" component={RecipeSuggestionList} title="Suggestions" />
+              <Scene key="pastSuggestionsTab" component={RecipeList} title="Past Recipes" />
+            </Scene>
     			</Scene>
     		</Router>
     	</Provider>
