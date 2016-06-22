@@ -1,14 +1,28 @@
 import React, { Component, PropTypes } from 'react';
+import {
+  ListView,
+  Text,
+  StyleSheet
+} from 'react-native';
 import { connect } from 'react-redux';
-import { List } from 'material-ui/List';
 import * as actions from '../actions';
-// import Avatar from 'material-ui/Avatar';
-// import Subheader from 'material-ui/Subheader';
 import RecipeSuggestionListItem from '../components/recipeSuggestionListItem';
+
+const styles = StyleSheet.create({
+  list: {
+    flex: 1,
+    flexDirection: 'column',
+  }
+})
 
 class RecipeSuggestionList extends Component {
   constructor(props){
     super(props);
+    console.log('suggestions passed into IceboxList are : ',props.suggestions);
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows(props.suggestions)
+    };
     this.handleRecipeChoice = this.handleRecipeChoice.bind(this);
   }
 
@@ -27,17 +41,17 @@ class RecipeSuggestionList extends Component {
 
   render() {
     return (
-      <div>
-        <List className="icebox-list">
-          {this.props.suggestions.map(suggestion => (
-            <RecipeSuggestionListItem
-              key={suggestion.key}
-              recipe={suggestion}
-              chooseRecipe={this.handleRecipeChoice.bind(this,suggestion)}
-            />
-          ))}
-        </List>
-      </div>
+      <ListView
+        contentContainerStyle={styles.list}
+        dataSource={this.state.dataSource}
+        renderRow={suggestion => (
+          <RecipeSuggestionListItem
+            key={suggestion.key}
+            recipe={suggestion}
+            chooseRecipe={this.handleRecipeChoice.bind(this,suggestion)}
+          />
+        )}
+      />
     );
   }
 }
@@ -53,57 +67,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, actions)(RecipeSuggestionList);
-// let SelectableList = MakeSelectable(List);
 
-// function wrapState(ComposedComponent) {
-//   return class SelectableList extends Component {
-//     static propTypes = {
-//       children: PropTypes.node.isRequired,
-//       defaultValue: PropTypes.number.isRequired,
-//     };
-
-//     componentWillMount() {
-//       this.setState({
-//         selectedIndex: this.props.defaultValue,
-//       });
-//     }
-
-//     handleRequestChange = (event, index) => {
-//       this.setState({
-//         selectedIndex: index,
-//       });
-//     };
-
-//     render() {
-//       return (
-//         <ComposedComponent
-//           value={this.state.selectedIndex}
-//           onChange={this.handleRequestChange}
-//         >
-//           {this.props.children}
-//         </ComposedComponent>
-//       );
-//     }
-//   };
-// }
-
-// SelectableList = wrapState(SelectableList);
-
-// const ListExampleSelectable = () => (
-//   <SelectableList defaultValue={3}>
-//     <ListItem
-//       value={3}
-//       primaryText="Kerem Suer"
-//     />
-//     <ListItem
-//       value={4}
-//       primaryText="Eric Hoffman"
-//     />
-//     <ListItem
-//       value={5}
-//       primaryText="Raquel Parrado"
-//     />
-//   </SelectableList>
-// );
-
-// export default ListExampleSelectable;
