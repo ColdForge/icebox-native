@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import {
   ListView,
   Text,
+  View,
   StyleSheet
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -11,6 +12,7 @@ import RecipeSuggestionListItem from '../components/recipeSuggestionListItem';
 const styles = StyleSheet.create({
   list: {
     marginTop: 64,
+    marginBottom: 50,
     flex: 1
   }
 })
@@ -42,11 +44,24 @@ class RecipeSuggestionList extends Component {
     }
   }
 
+	_renderSeperator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+		return (
+			<View
+				key={`${sectionID}-${rowID}`}
+				style={{
+					height: adjacentRowHighlighted ? 4 : 1,
+					backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC',
+				}}
+			/>
+		);
+	}
+
   render() {
     return (
       <ListView
         contentContainerStyle={styles.list}
         dataSource={this.state.dataSource}
+        scrollEnabled={false}
         enableEmptySections={true}
         renderRow={suggestion => (
           <RecipeSuggestionListItem
@@ -58,6 +73,7 @@ class RecipeSuggestionList extends Component {
             chooseRecipe={this.handleRecipeChoice.bind(this,suggestion)}
           />
         )}
+        renderSeparator={this._renderSeperator}
       />
     );
   }
