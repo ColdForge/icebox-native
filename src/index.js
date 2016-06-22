@@ -34,6 +34,14 @@ class Right extends Component {
   }
 }
 
+class TabIcon extends React.Component {
+  render(){
+    return (
+      <Text style={{color: this.props.selected ? "red" :"black"}}>{this.props.title}</Text>
+    );
+  }
+}
+
 class iceboxNative extends Component {
   render(){
     return (
@@ -45,8 +53,8 @@ class iceboxNative extends Component {
     				<Scene key="dashboard" component={Dashboard} title="Dashboard" />
     				<Scene key="icebox" hideNavBar={false} component={Icebox} />
     				<Scene key="recipes" tabs={true} hideNavBar={false} >
-              <Scene key="recipeSuggestionsTab" component={RecipeSuggestionList} title="Suggestions" />
-              <Scene key="pastSuggestionsTab" component={RecipeList} title="Past Recipes" />
+              <Scene key="recipeSuggestionsTab" initial={true} component={RecipeSuggestionList} title="Suggestions" icon={TabIcon} />
+              <Scene key="pastSuggestionsTab" component={RecipeList} title="Past Recipes" icon={TabIcon} />
             </Scene>
     			</Scene>
     		</Router>
