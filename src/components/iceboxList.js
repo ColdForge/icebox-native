@@ -3,42 +3,36 @@ import {
   StyleSheet,
   Text,
   ListView,
-  ScrollView,
-  TextInput,
-  TouchableHighlight,
-  Image
+  View
 } from 'react-native';
 import IceboxListItem from './iceboxListItem';
 
 const styles = StyleSheet.create({
-	gridList: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  },
-  gridListItem: {
-  	backgroundColor: '#CCC',
-    margin: 10,
-    width: 100,
-    height: 100
-  }
+	list: {
+	  
+	}
 })
 
 class IceboxList extends Component {
-	constructor(props){
-		super(props);
-		console.log('contents passed into IceboxList are : ',props.contents);
-		const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-		this.state = {
-			dataSource: ds.cloneWithRows(props.contents)
-		};
+	_renderSeperator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+		return (
+			<View
+				key={`${sectionID}-${rowID}`}
+				style={{
+					height: adjacentRowHighlighted ? 4 : 1,
+					backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC',
+				}}
+			/>
+		);
 	}
 
 	render(){
+		let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
 		return (
 			<ListView
-				contentContainerStyle={styles.gridList}
-				dataSource={this.state.dataSource}
+				contentContainerStyle={styles.list}
+				dataSource={ds.cloneWithRows(this.props.contents)}
 				renderRow={(item) => (
 					<IceboxListItem
 						key={item.key}
@@ -49,6 +43,7 @@ class IceboxList extends Component {
 						iconPath={item.iconPath}
 					/>
 				)}
+				renderSeparator={this._renderSeperator}
 			/>
 		);
 	}
@@ -60,3 +55,4 @@ IceboxList.propTypes = {
 };
 
 export default IceboxList;
+
