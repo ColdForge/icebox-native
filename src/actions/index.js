@@ -137,44 +137,50 @@ export const addIceboxItems = ({ foodItems }) => (
 
 export const getRecipes = () => (
 	(dispatch) => {
-		const token = getToken();
-		fetch(`${API_URL}/api/icebox/pastRecipes`, {
-			method: 'GET',
-			headers: {
-				'authorization': token,
-				'Accept'      : 'application/json',
-				'Content-Type': 'application/json'
-			}
-		})
-		.then(rawResponse => rawResponse.json())
-		.then(response => {
-			console.log('response from getRecipes : ',response);
-			// dispatch({ type: TYPES.GET_RECIPES, payload: response.data });
-		})
-		.catch(error => {
-			console.log('error on getRecipes fetch of : ',error);
+		console.log('getRecipes action called!');
+		getToken().then(token => {
+			// console.log('token from getToken is : ',token);
+			fetch(`${API_URL}/api/icebox/pastRecipes`, {
+				method: 'GET',
+				headers: {
+					'authorization': token,
+					'Accept'      : 'application/json',
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(rawResponse => rawResponse.json())
+			.then(response => {
+				console.log('response from getRecipes : ',response);
+				dispatch({ type: TYPES.GET_RECIPES, payload: response });
+			})
+			.catch(error => {
+				console.log('error on getRecipes fetch of : ',error);
+			});
 		});
 	}
 );
 
 export const getRecipeSuggestions = () => (
 	(dispatch) => {
-		const token = getToken();
-		fetch(`${API_URL}/api/icebox/recipes`, {
-			method: 'GET',
-			headers: {
-				'authorization': token,
-				'Accept'      : 'application/json',
-				'Content-Type': 'application/json'
-			}
-		})
-		.then(rawResponse => rawResponse.json())
-		.then(response => {
-			console.log('response from getRecipes : ',response);
-			// dispatch({ type: TYPES.GET_RECIPE_SUGGESTIONS, payload: response.data });
-		})
-		.catch(error => {
-			console.log('error on getRecipeSuggestions fetch of : ',error);
+		console.log('getRecipeSuggestions action called!');
+		getToken().then(token => {
+			// console.log('token from getToken is : ',token);
+			fetch(`${API_URL}/api/icebox/recipes`, {
+				method: 'GET',
+				headers: {
+					'authorization': token,
+					'Accept'      : 'application/json',
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(rawResponse => rawResponse.json())
+			.then(response => {
+				console.log('response from getRecipes : ',response);
+				dispatch({ type: TYPES.GET_RECIPE_SUGGESTIONS, payload: response });
+			})
+			.catch(error => {
+				console.log('error on getRecipeSuggestions fetch of : ',error);
+			});
 		});
 	}
 );
