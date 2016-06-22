@@ -187,16 +187,28 @@ export const getRecipeSuggestions = () => (
 
 export const chooseRecipe = ({ recipe }) => (
 	(dispatch) => {
-		axios.post(`${API_URL}/api/icebox/recipes`, { recipe }, {
-			headers: { authorization: localStorage.getItem('token') },
-		})
-			.then(response => {
-				dispatch({ type: TYPES.SET_CHOSEN_RECIPE, payload: response.data });
+		console.log('chooseRecipe action called with recipe of : ',recipe);
+		getToken().then(token => {
+			fetch(`${API_URL}/api/icebox/recipes`, {
+				method: 'POST',
+				headers: {
+					'authorization': token,
+					'Accept'      : 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					recipe: recipe
+				})
 			})
-			.catch(response => (
-				response
-				// console.log('error in chooseRecipe, response of : ',response);
-			));
+			.then(rawResponse => rawResponse.json())
+			.then(response => {
+				console.log('response from chooseRecipe : ',response);
+				// dispatch({ type: TYPES.SET_CHOSEN_RECIPE, payload: response });
+			})
+			.catch(error => {
+				console.log('error on chooseRecipe fetch of : ',error);
+			});
+		});
 	}
 );
 
