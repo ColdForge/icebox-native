@@ -10,7 +10,7 @@ import RecipeListItem from '../components/recipeListItem';
 
 const styles = StyleSheet.create({
 	list: {
-	  marginTop: 64,
+	  marginTop: 40,
 	  marginBottom: 50
 	}
 })

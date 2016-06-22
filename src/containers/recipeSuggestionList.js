@@ -11,7 +11,7 @@ import RecipeSuggestionListItem from '../components/recipeSuggestionListItem';
 
 const styles = StyleSheet.create({
   list: {
-    marginTop: 64,
+    marginTop: 40,
     marginBottom: 50,
     flex: 1
   }
