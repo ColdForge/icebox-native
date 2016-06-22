@@ -27,7 +27,7 @@ class IceboxList extends Component {
 	}
 
 	render(){
-		let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+		let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.key !== r2.key});
 
 		return (
 			<ListView
@@ -44,6 +44,7 @@ class IceboxList extends Component {
 					/>
 				)}
 				renderSeparator={this._renderSeperator}
+				initialListSize={15}
 			/>
 		);
 	}

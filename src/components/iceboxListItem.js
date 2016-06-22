@@ -28,7 +28,14 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		right: 0
 	},
-	body: {
+	body1: {
+		flex: 2,
+		paddingLeft: 10,
+		paddingRight: 10,
+		flexDirection: 'column',
+		alignSelf: 'center'
+	},
+	body2: {
 		flex: 1,
 		paddingLeft: 10,
 		paddingRight: 10,
@@ -111,10 +118,10 @@ const IceboxListItem = ({ styling, name, foodGroup, iconPath, expiration }) => {
 			<View style={styles.imageContainer}>
 				<Image style={styles.fgIcon} source={iconsMap[foodGroup]} />
 			</View>
-			<View style={styles.body}>
+			<View style={styles.body1}>
 				<Text style={styles.title}>{name}</Text>
 			</View>
-			<View style={styles.body}>
+			<View style={styles.body2}>
 				<Text style={applyStyling(expiration)}>{expiration} day(s)</Text>
 			</View>
 		</View>

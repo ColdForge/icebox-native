@@ -26,6 +26,7 @@ class Icebox extends Component {
 const styles = StyleSheet.create({
   container: {
     marginTop: 64,
+    backgroundColor: '#CFF09E',
     flex: 1
   },
   toolbar: {
