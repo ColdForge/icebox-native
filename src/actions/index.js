@@ -1,7 +1,35 @@
 // Actions will go here
+import { AsyncStorage, AlertIOS } from 'react-native';
 import * as TYPES from '../constants/actions';
+import { Actions } from "react-native-router-flux";
 
 const API_URL = 'http://localhost:8080';
+
+const getToken = async () => {
+	try {
+		const token = await AsyncStorage.getItem('token');
+		return token;
+	} catch (error) {
+		console.log('AsyncStorage getToken error: ', error.message);
+	}
+}
+
+const setToken = async (token) => {
+	try {
+		await AsyncStorage.setItem('token', token);
+	} catch (error) {
+		console.log('AsyncStorage getToken error: ', error.message);
+	}
+}
+
+const removeToken = async () => {
+	try {
+	  await AsyncStorage.removeItem('token');
+	  AlertIOS.alert("Logout Success!")
+	} catch (error) {
+	  console.log('AsyncStorage error: ' + error.message);
+	}
+}
 
 export const authError = (error) => ({
 	type: TYPES.AUTHORIZE_ERROR,
@@ -10,18 +38,34 @@ export const authError = (error) => ({
 
 export const signinUser = ({ email, password }) => (
 	(dispatch) => {
-		axios.post(`${API_URL}/user/signin`, { email, password })
-			.then(response => {
-				// console.log('response inside signinUser : ', response);
-				dispatch({ type: TYPES.AUTHORIZE_USER });
-				dispatch({ type: TYPES.GET_USER_INFO, payload: response.data });
-				dispatch({ type: TYPES.POPULATE_ICEBOX, payload: response.data.contents });
-				localStorage.setItem('token', response.data.token);
-				browserHistory.push('/icebox');
+		console.log('signinUser action called with email: ',email,' password: ',password);
+		fetch(`${API_URL}/user/signin`, {
+			method: 'POST',
+			headers: {
+        'Accept'      : 'application/json',
+        'Content-Type': 'application/json'
+      },
+			body: JSON.stringify({
+				email: email,
+				password: password
 			})
-			.catch(response => {
-				dispatch(authError(response));
-			});
+		})
+		.then(rawResponse => {
+			console.log('rawResponse is : ',rawResponse)
+			return rawResponse.json();
+		})
+		.then(response => {
+			console.log('response is : ',response);
+			setToken(response.token);
+			dispatch({ type: TYPES.AUTHORIZE_USER });
+			dispatch({ type: TYPES.GET_USER_INFO, payload: response });
+			dispatch({ type: TYPES.POPULATE_ICEBOX, payload: response.contents });
+			Actions.dashboard();
+		})
+		.catch(error => {
+			console.log('error on signinUser fetch of : ',error);
+			dispatch(authError(error));
+		});
 	}
 );
 

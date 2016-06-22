@@ -26,9 +26,14 @@ import Dashboard from './components/dashboard';
 import Icebox from './components/icebox';
 import Recipes from './components/recipes';
 
-class iceboxNative extends Component {
 
-  
+class Right extends Component {
+  render(){
+		return <Text style={styles.back}>Back</Text>;
+  }
+}
+
+class iceboxNative extends Component {
   render(){
     return (
     	<Provider store={store}>
@@ -37,8 +42,8 @@ class iceboxNative extends Component {
     				<Scene key="login" component={Login} title="Login" />
     				<Scene key="signup" component={Signup} title="Sign Up" />
     				<Scene key="dashboard" component={Dashboard} title="Dashboard" />
-    				<Scene key="icebox" component={Icebox} />
-    				<Scene key="recipes" component={Recipes} />
+    				<Scene key="icebox" hideNavBar={false} component={Icebox} />
+    				<Scene key="recipes" hideNavBar={false} component={Recipes} />
     			</Scene>
     		</Router>
     	</Provider>
@@ -58,6 +63,14 @@ const styles = StyleSheet.create({
   	backgroundColor: '#9ED59E',
   	paddingTop: 30,
   	paddingBottom: 10
+  },
+  back: {
+  	width: 80,
+  	height: 37,
+  	position: "absolute",
+  	bottom: 4,
+  	right: 2,
+  	padding: 8
   }
 });
 
