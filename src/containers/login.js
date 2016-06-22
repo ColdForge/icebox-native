@@ -7,9 +7,10 @@ import {
   TouchableHighlight,
   Image
 } from 'react-native';
+import { reduxForm } from 'redux-form';
 import Dimensions from 'Dimensions';
 import { Actions } from "react-native-router-flux";
-
+import * as actions from '../actions';
 
 const windowSize = Dimensions.get('window');
 
@@ -22,11 +23,12 @@ class Login extends Component {
 		};
 	}
 
-	handleSubmit(){
-		Actions.dashboard();
+	handleFormSubmit({ email, password }){
+		console.log('handleFormSubmit called');
+		this.props.signinUser({ email, password });
 	}
 
-	handleUsernameInput(e){
+	handleEmailInput(e){
 		console.log('handleUsernameInput e.nativeEvent.text is : ',e.nativeEvent.text)
 		this.setState({
 			username: e.nativeEvent.text
@@ -41,6 +43,8 @@ class Login extends Component {
 	}
 
 	render(){
+		const { handleSubmit, fields: { email, password }} = this.props;
+
 		return (
 			<View style={styles.container}>
 			    <Image style={styles.bg} source={require('../../assets/bg.jpeg')} />
@@ -49,13 +53,14 @@ class Login extends Component {
 			    </View>
 			    <View style={styles.inputs}>
 			        <View style={styles.inputContainer}>
-			            <Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
+			            <Image style={styles.inputEmail} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
 			            <TextInput 
 			                style={[styles.input, styles.pinkFont]}
 			                placeholder="Email"
 			                placeholderTextColor="#FFF"
-			                value={this.state.username}
-			                onChange={this.handleUsernameInput.bind(this)}
+			                {...email}
+			                // onChange={this.handleUsernameInput}
+			                // value={this.state.username}
 			            />
 			        </View>
 			        <View style={styles.inputContainer}>
@@ -65,8 +70,9 @@ class Login extends Component {
 			                style={[styles.input, styles.pinkFont]}
 			                placeholder="Password"
 			                placeholderTextColor="#FFF"
-			                value={this.state.password}
-			                onChange={this.handlePasswordInput.bind(this)}
+			              	{...password}
+			              	// onChange={this.handlePasswordInput}
+			              	// value={this.state.password}
 			            />
 			        </View>
 			        <View style={styles.forgotContainer}>
@@ -75,10 +81,10 @@ class Login extends Component {
 			    </View>
 			    <TouchableHighlight
 			    	style={styles.signin}
-			    	onPress={this.handleSubmit.bind(this)}
+			    	onPress={handleSubmit(this.handleFormSubmit.bind(this))}
 			    	underlayColor="white"
 			    >
-			    	<Text style={styles.blackFont}>Sign In</Text>
+			    	<Text style={styles.blackFont}>Login</Text>
 			    </TouchableHighlight>
 			    <TouchableHighlight
 			    	style={styles.signup}
@@ -134,7 +140,7 @@ const styles = StyleSheet.create({
 		width: 20,
 		height: 21
 	},
-	inputUsername: {
+	inputEmail: {
 		marginLeft: 15,
 		width: 20,
 		height: 20
@@ -169,4 +175,9 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default Login;
+// export default Login;
+
+export default reduxForm({
+	form: 'login',
+	fields: ['email','password']
+}, null, actions)(Login);
