@@ -8,27 +8,64 @@ import {
 } from 'react-native';
 
 const styles = StyleSheet.create({
-	gridListItem: {
-		backgroundColor: '#CCC',
-	  margin: 10,
-	  width: 100,
-	  height: 100
+	row: {
+		height: 40,
+		backgroundColor: '#88D795',
+		flexDirection: 'row'
+	},
+	imageContainer: {
+		marginTop: 1,
+		marginBottom: 1,
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		position: 'relative'
+	},
+	image: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0
+	},
+	body: {
+		flex: 1,
+		paddingLeft: 10,
+		paddingRight: 10,
+		flexDirection: 'column',
+		alignSelf: 'center'
+	},
+	title: {
+		textAlign: 'center',
+		fontSize: 18,
+		color: 'black'
+	},
+	text: {
+		textAlign: 'center',
+		fontSize: 14,
+		color: 'white'
 	},
 	redItem: {
 		color: '#EA0B0B',
-		fontWeight: '700'
+		fontWeight: '700',
+		textAlign: 'center',
+		fontSize: 14
 	},
 	orangeItem: {
 		color: '#FF5A37',
-		fontWeight: '700'
+		fontWeight: '700',
+		textAlign: 'center',
+		fontSize: 14
 	},
 	normalItem: {
-		color: '#1FCA08',
-		fontWeight: '700'
+		color: '#000000',
+		fontWeight: '400',
+		textAlign: 'center',
+		fontSize: 14
 	},
 	fgIcon: {
-		width: 48,
-		height: 48
+		width: 24,
+		height: 24
 	}
 });
 
@@ -70,15 +107,15 @@ const IceboxListItem = ({ styling, name, foodGroup, iconPath, expiration }) => {
 	}
 
 	return (
-		<View style={styles.gridListItem}>
-			<View>
+		<View style={styles.row}>
+			<View style={styles.imageContainer}>
 				<Image style={styles.fgIcon} source={iconsMap[foodGroup]} />
-				<View>
-					<Text>{name}</Text>
-				</View>
-				<View>
-					<Text style={applyStyling(expiration)}>{expiration} days</Text>
-				</View>
+			</View>
+			<View style={styles.body}>
+				<Text style={styles.title}>{name}</Text>
+			</View>
+			<View style={styles.body}>
+				<Text style={applyStyling(expiration)}>{expiration} day(s)</Text>
 			</View>
 		</View>
 	);
