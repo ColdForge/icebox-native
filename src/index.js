@@ -16,6 +16,10 @@ import {
 	Schema,
 	Actions
 } from 'react-native-router-flux'
+import {
+	MKButton,
+	MKColor
+} from 'react-native-material-kit';
 import { Provider } from 'react-redux';
 import configureStore from './state/configureStore';
 const store = configureStore();
@@ -55,6 +59,37 @@ class TabIcon extends React.Component {
   }
 }
 
+class AddItemsButton extends Component {
+	render(){
+		return (
+			<MKButton
+			  style={{
+			  	backgroundColor: 'green',
+			  	position: 'absolute',
+			  	bottom: 10,
+			  	right: 10,
+			  	padding: 8,
+			  	alignItems: 'center',
+		      justifyContent: 'center'
+			  }}
+			  fab={true}
+			  shadowRadius={2}
+			  shadowOffset={{width:0, height:2}}
+			  shadowOpacity={.7}
+			  shadowColor="black"
+			  onPress={() => {
+			    console.log('hi, raised button!');
+			  }}
+			  >
+			  <Text pointerEvents="none"
+			        style={{color: 'white', fontWeight: 'bold',}}>
+			    +
+			  </Text>
+			</MKButton>
+		);
+	}
+}
+
 class iceboxNative extends Component {
 
   render(){
@@ -65,7 +100,7 @@ class iceboxNative extends Component {
     				<Scene key="login" component={Login} title="Login" />
     				<Scene key="signup" component={Signup} title="Sign Up" />
     				<Scene key="dashboard" component={Dashboard} title="Dashboard" />
-						<Scene key="icebox" hideNavBar={false} component={Icebox} title="Icebox" />
+						<Scene key="icebox" hideNavBar={false} component={Icebox} title="Icebox" renderRightButton={() => <AddItemsButton />}/>
 						<Scene key="recipes" tabs={true} hideNavBar={false} component={Recipes} title="Recipes" />
 	          <Scene key="recipeSuggestionsTab" hideNavBar={false} component={RecipeSuggestionList} title="Suggestions" />
 	          <Scene key="pastSuggestionsTab" hideNavBar={false} component={RecipeList} title="Past Recipes" />
