@@ -2,25 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import {
   ListView,
   StyleSheet,
-  Text
+  Text,
+  View
 } from 'react-native';
 import { connect } from 'react-redux';
 import RecipeListItem from '../components/recipeListItem';
 
 const styles = StyleSheet.create({
-	gridList: {
-		marginTop: 64,
-		flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  },
-  gridListItem: {
-  	backgroundColor: '#CCC',
-    margin: 10,
-    width: 100,
-    height: 100
-  }
+	list: {
+	  marginTop: 64,
+	  marginBottom: 50
+	}
 })
 
 class RecipeList extends Component {
@@ -33,10 +25,22 @@ class RecipeList extends Component {
 	  };
 	}
 
+	_renderSeperator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+		return (
+			<View
+				key={`${sectionID}-${rowID}`}
+				style={{
+					height: adjacentRowHighlighted ? 4 : 1,
+					backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC',
+				}}
+			/>
+		);
+	}
+
 	render(){
 		return (
 			<ListView
-				contentContainerStyle={styles.gridList}
+				contentContainerStyle={styles.list}
 				dataSource={this.state.dataSource}
 				enableEmptySections={true}
 				renderRow={recipe => (
@@ -49,23 +53,11 @@ class RecipeList extends Component {
 						prepTime={recipe.readyInMinutes}
 					/>
 				)}
+				renderSeparator={this._renderSeperator}
 			/>
 		);
 	}
 }
-
-// const RecipeList = ({ recipes }) => (
-// 	<div style={styles.root}>
-// 		<GridList
-// 			className="icebox-list"
-// 			cellHeight={400}
-// 			style={styles.gridlist}
-// 			cols={3}
-// 		>
-// 			{recipes.map()}
-// 		</GridList>
-// 	</div>
-// );
 
 RecipeList.propTypes = {
 	recipes: React.PropTypes.array.isRequired,
