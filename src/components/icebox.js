@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  ScrollView,
   View
 } from 'react-native';
 import IceboxToolbar from '../containers/iceboxToolbar';
@@ -14,7 +15,9 @@ class Icebox extends Component {
     return (
       <View style={styles.container}>
         <IceboxToolbar />
-        <VisibleIceboxList />
+        <ScrollView>
+          <VisibleIceboxList />
+        </ScrollView>
       </View>
     )
   }
@@ -22,7 +25,14 @@ class Icebox extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 64
+    marginTop: 64,
+    flex: 1
+  },
+  toolbar: {
+    height: 44
+  },
+  contents: {
+    flex: 1
   }
 });
 
