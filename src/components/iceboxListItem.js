@@ -9,16 +9,14 @@ import {
 
 const styles = {
 	ListItem: {
-		text: {
-			color: '#000000',
-		},
+		color: '#000000'
 	},
 };
 
 const IceboxListItem = ({ name, foodGroup, iconPath, expiration }) => {
-	if (!name) {
-		return <ListItem primaryText="Loading..." />;
-	}
+	// if (!name) {
+	// 	return <ListItem primaryText="Loading..." />;
+	// }
 
 	let textColor = 'expiration-black';
 
@@ -33,9 +31,9 @@ const IceboxListItem = ({ name, foodGroup, iconPath, expiration }) => {
 	}
 
 	return (
-		<ListItem
+		<View
 			className="iceboxListItem"
-			style={styles.ListItem.text}
+			style={styles.ListItem}
 		>
 			<View>
 				<Image height="24" width="24" alt="Food Group" src={iconPath} />
@@ -46,7 +44,7 @@ const IceboxListItem = ({ name, foodGroup, iconPath, expiration }) => {
 					<Text>{expiration}</Text>
 				</View>
 			</View>
-		</ListItem>
+		</View>
 	);
 };
 

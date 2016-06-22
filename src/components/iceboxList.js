@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   Text,
+  ListView,
   View,
   TextInput,
   TouchableHighlight,
@@ -11,8 +12,9 @@ import IceboxListItem from './iceboxListItem';
 
 const IceboxList = ({ contents }) => (
 	<View>
-		<List className="icebox-list">
-			{contents.map(item => (
+		<ListView
+			dataSource={contents}
+			renderRow={(item) => (
 				<IceboxListItem
 					key={item.key}
 					item={item}
@@ -21,8 +23,8 @@ const IceboxList = ({ contents }) => (
 					expiration={item.expiration}
 					iconPath={item.iconPath}
 				/>
-			))}
-		</List>
+			)}
+		/>
 	</View>
 );
 
