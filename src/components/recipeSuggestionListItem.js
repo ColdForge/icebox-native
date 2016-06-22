@@ -5,52 +5,74 @@ import {
   View,
   ScrollView,
   Image,
+  TouchableHighlight
 } from 'react-native';
-import {
-  MKButton,
-  MKColor,
-  MKIconToggle,
-  getTheme,
-} from 'react-native-material-kit';
 
-const theme = getTheme();
-
-class RecipeSuggestionListItem extends Component {
-	render(){
-		return (
-			<View style={theme.cardStyle}>
-			  <Image source={{uri : 'https://static.pexels.com/photos/41123/pexels-photo-41123.jpeg'}} style={theme.cardImageStyle} />
-			  <Text style={theme.cardTitleStyle}>{recipe}</Text>
-			  <Text style={theme.cardContentStyle}>
-			    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-			    Mauris sagittis pellentesque lacus eleifend lacinia...
-			  </Text>
-			  <View style={theme.cardMenuStyle}>{recipe}</View>
-			  <Text style={theme.cardActionStyle}>My Action</Text>
-			</View>
-		);
+const styles = StyleSheet.create({
+	row: {
+		flex: 1,
+		paddingLeft: 20,
+		paddingRight: 20,
+		backgroundColor: '#55C768',
+		flexDirection: 'row'
+	},
+	image: {
+		flex: 1,
+		height: 125,
+		width: 125,
+		borderRadius: 10,
+		alignSelf: 'center'
+	},
+	body: {
+		flex: 2,
+		flexDirection: 'column',
+		alignSelf: 'center'
+	},
+	title: {
+		textAlign: 'center',
+		fontSize: 18,
+		color: 'black'
+	},
+	text: {
+		textAlign: 'center',
+		fontSize: 16,
+		color: 'white'
+	},
+	button: {
+		backgroundColor: '#FFFFFF',
+		marginTop: 10,
+		paddingTop: 4,
+		paddingBottom: 4,
+		paddingLeft: 10,
+		paddingRight: 10,
+		borderRadius: 10,
+		alignSelf: 'center'
+	},
+	buttonText: {
+		textAlign: 'center'
 	}
-}
+})
 
-// const RecipeSuggestionListItem = ({ recipe, chooseRecipe }) => (
-// 	<Card>
-// 		<CardHeader
-// 			title={recipe.title}
-// 			subtitle="Subtitle"
-// 			actAsExpander
-// 			showExpandableButton
-// 		/>
-// 		<CardText expandable>
-// 			Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-// 			Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-// 			Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-// 			Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-// 		</CardText>
-// 		<CardActions expandable>
-// 			<FlatButton label="Choose this recipe!" onTouchTap={chooseRecipe} />
-// 		</CardActions>
-// 	</Card>
-// );
+const RecipeSuggestionListItem = ({ image, likes, recipe, title, chooseRecipe }) => (
+	<View style={styles.row}>
+	  <Image source={{uri : image}} style={styles.image} />
+	  <View style={styles.body}>
+		  <Text style={styles.title}>{title}</Text>
+		  <Text style={styles.text}>
+		    # Missing Ingredients: {recipe.missedIngredientCount}
+		  </Text>
+		  <Text style={styles.text}>
+		    # Used Ingredients: {recipe.usedIngredientCount}
+		  </Text>
+		  <TouchableHighlight
+		  	style={styles.button}
+		  	onPress={chooseRecipe}
+		  >
+		  	<Text style={styles.buttonText}>Choose this recipe!</Text>
+		  </TouchableHighlight>
+		</View>
+	</View>
+);
 
 RecipeSuggestionListItem.propTypes = {
 	recipe: React.PropTypes.object.isRequired,
