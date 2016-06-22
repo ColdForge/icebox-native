@@ -27,11 +27,24 @@ import Icebox from './components/icebox';
 import Recipes from './components/recipes';
 import RecipeSuggestionList from './containers/recipeSuggestionList';
 import RecipeList from './containers/recipeList';
+import Drawer from './containers/drawer';
 
 class Right extends Component {
   render(){
 		return <Text style={styles.back}>Back</Text>;
   }
+}
+
+class BackButton extends Component {
+	render(){
+		return (
+			<TouchableHighlight
+				onPress={Actions.pop}
+			>
+				<Text>Back</Text>
+			</TouchableHighlight>
+		);
+	}
 }
 
 class TabIcon extends React.Component {
@@ -43,6 +56,7 @@ class TabIcon extends React.Component {
 }
 
 class iceboxNative extends Component {
+
   render(){
     return (
     	<Provider store={store}>
@@ -51,12 +65,11 @@ class iceboxNative extends Component {
     				<Scene key="login" component={Login} title="Login" />
     				<Scene key="signup" component={Signup} title="Sign Up" />
     				<Scene key="dashboard" component={Dashboard} title="Dashboard" />
-    				<Scene key="icebox" hideNavBar={false} component={Icebox} />
-    				<Scene key="recipes" tabs={true} hideNavBar={false} >
-              <Scene key="recipeSuggestionsTab" initial={true} component={RecipeSuggestionList} title="Suggestions" icon={TabIcon} />
-              <Scene key="pastSuggestionsTab" component={RecipeList} title="Past Recipes" icon={TabIcon} />
-            </Scene>
-    			</Scene>
+						<Scene key="icebox" hideNavBar={false} component={Icebox} title="Icebox" />
+						<Scene key="recipes" tabs={true} hideNavBar={false} component={Recipes} title="Recipes" />
+	          <Scene key="recipeSuggestionsTab" hideNavBar={false} component={RecipeSuggestionList} title="Suggestions" />
+	          <Scene key="pastSuggestionsTab" hideNavBar={false} component={RecipeList} title="Past Recipes" />
+		      </Scene>
     		</Router>
     	</Provider>
     );
