@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import IceboxToolbar from '../containers/iceboxToolbar';
 import VisibleIceboxList from '../containers/visibleIceboxList';
+// import IceboxList from './iceboxList';
 
 class Icebox extends Component {
   render() {
@@ -21,7 +22,6 @@ class Icebox extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     marginTop: 64
   }
 });
