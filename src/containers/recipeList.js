@@ -9,6 +9,8 @@ import RecipeListItem from '../components/recipeListItem';
 
 const styles = StyleSheet.create({
 	gridList: {
+		marginTop: 64,
+		flex: 1,
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap'
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
 class RecipeList extends Component {
 	constructor(props){
 	  super(props);
-	  console.log('recipes passed into IceboxList are : ',props.recipes);
+	  console.log('recipes passed into RecipeList are : ',props.recipes);
 	  const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 	  this.state = {
 	    dataSource: ds.cloneWithRows(props.recipes)
@@ -36,6 +38,7 @@ class RecipeList extends Component {
 			<ListView
 				contentContainerStyle={styles.gridList}
 				dataSource={this.state.dataSource}
+				enableEmptySections={true}
 				renderRow={recipe => (
 					<RecipeListItem
 						key={recipe.key}

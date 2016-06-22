@@ -10,15 +10,15 @@ import RecipeSuggestionListItem from '../components/recipeSuggestionListItem';
 
 const styles = StyleSheet.create({
   list: {
-    flex: 1,
-    flexDirection: 'column',
+    marginTop: 64,
+    flex: 1
   }
 })
 
 class RecipeSuggestionList extends Component {
   constructor(props){
     super(props);
-    console.log('suggestions passed into IceboxList are : ',props.suggestions);
+    console.log('suggestions passed into RecipeSuggestionList are : ',props.suggestions);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: ds.cloneWithRows(props.suggestions)
@@ -27,7 +27,10 @@ class RecipeSuggestionList extends Component {
   }
 
   componentWillMount() {
-    this.props.getRecipeSuggestions();
+    if (this.props.suggestions.length === 0) {
+      console.log('suggestions is empty in RecipeSuggestionList')
+      this.props.getRecipeSuggestions();
+    } 
   }
 
   handleRecipeChoice(recipe) {
@@ -44,10 +47,14 @@ class RecipeSuggestionList extends Component {
       <ListView
         contentContainerStyle={styles.list}
         dataSource={this.state.dataSource}
+        enableEmptySections={true}
         renderRow={suggestion => (
           <RecipeSuggestionListItem
             key={suggestion.key}
             recipe={suggestion}
+            image={suggestion.image}
+            likes={suggestion.likes}
+            title={suggestion.title}
             chooseRecipe={this.handleRecipeChoice.bind(this,suggestion)}
           />
         )}
