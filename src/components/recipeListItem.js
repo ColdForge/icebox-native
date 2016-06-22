@@ -1,15 +1,33 @@
 import React from 'react';
-import { GridTile } from 'material-ui/GridList';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  Image
+} from 'react-native';
+
+const styles = StyleSheet.create({
+	gridListItem: {
+		backgroundColor: '#CCC',
+	  margin: 10,
+	  width: 100,
+	  height: 100
+	}
+});
 
 const RecipeListItem = ({ name, imageUrl, sourceUrl, recipeID, prepTime }) => (
-	<a href={sourceUrl} target="_blank">
-		<GridTile
-			title={name}
-			subtitle={`Prep Time: ${prepTime}min, Recipe ID: ${recipeID}`}
-		>
-			<img src={imageUrl} alt="Recipe" />
-		</GridTile>
-	</a>
+	<View style={styles.gridListItem}>
+		<View>
+			<Image source={{uri: imageUrl}} />
+			<View>
+				<Text>{name}</Text>
+			</View>
+			<View>
+				<Text>Prep Time: ${prepTime}min, Recipe ID: ${recipeID}</Text>
+			</View>
+		</View>
+	</View>
 );
 
 RecipeListItem.propTypes = {
