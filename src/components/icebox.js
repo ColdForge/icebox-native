@@ -34,6 +34,7 @@ class Icebox extends Component {
     }
     this.renderModal = this.renderModal.bind(this);
     this.submitInput = this.submitInput.bind(this);
+    this.submitInputFinalized = this.submitInputFinalized.bind(this);
     this.renderLists = this.renderLists.bind(this);
     this.renderGoodListHeader = this.renderGoodListHeader.bind(this);
     this.renderBadListHeader = this.renderBadListHeader.bind(this);
@@ -63,7 +64,7 @@ class Icebox extends Component {
     }
     getToken().then(token => {
       // console.log('token from getToken is : ',token);
-      fetch(`http://192.168.1.53:8080/api/icebox/native`, {
+      fetch(`http://192.168.1.53:8080/api/icebox/native-check`, {
         method: 'POST',
         headers: {
           'authorization': token,
@@ -110,6 +111,81 @@ class Icebox extends Component {
       });
     });
   }
+
+  submitInputFinalized(){
+    console.log('submitInputFinalized called');
+    // this.setState({
+    //   submittedItems: true,
+    //   isLoading: true
+    // })
+    const getToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        return token;
+      } catch (error) {
+        console.log('AsyncStorage getToken error: ', error.message);
+      }
+    }
+    console.log('this.state.goodItems are : ',this.state.goodItems)
+    console.log('this.state.goodItemToggles are : ',this.state.goodItemToggles)
+
+    const itemsToAdd = this.state.goodItems.filter(item => {
+      if(this.state.goodItemToggles[item.key] === true){
+        return true;
+      }
+      return false;
+    })
+    console.log('itemsToAdd are : ',itemsToAdd)
+
+    // getToken().then(token => {
+    //   fetch(`http://192.168.1.53:8080/api/icebox/native-submit`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'authorization': token,
+    //       'Accept'      : 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //       itemString: itemString
+    //     })
+    //   })
+    //   .then(rawResponse => rawResponse.json())
+    //   .then(response => {
+    //     console.log('response from post to icebox/native : ',response);
+    //     const goodItems = response.recognizedItems.map(item => (
+    //       { key: v4(), toggle: true, name: item.name, foodGroup: item.foodGroup }
+    //     ));
+    //     let goodItemToggles = {};
+    //     goodItems.forEach(item => {
+    //       goodItemToggles[item.key] = true;
+    //     });
+    //     const badItems = [...response.noExpirationItems, ...response.unrecognizedItems].map(item => (
+    //       { key: v4(), toggle: true, name: item.name }
+    //     ));
+    //     let badItemToggles = {};
+    //     badItems.forEach(item => {
+    //       badItemToggles[item.key] = true;
+    //     });
+    //     this.setState({
+    //       isLoading: false,
+    //       submittedItems: true,
+    //       text: '',
+    //       goodItems: [...this.state.goodItems, ...goodItems],
+    //       goodItemToggles: {...this.state.goodItemToggles, ...goodItemToggles},
+    //       badItems: [...this.state.badItems, ...badItems],
+    //       badItemToggles: {...this.state.badItemToggles, ...badItemToggles},
+    //     })
+    //   })
+    //   .catch(error => {
+    //     console.log('error on post to icebox/native : ',error);
+    //     this.setState({
+    //       isLoading: false,
+    //       text: ''
+    //     })
+    //   });
+    // });
+  }
+
 
   renderSubmitButton(){
     return this.state.text ? (
@@ -289,7 +365,7 @@ class Icebox extends Component {
               </TouchableHighlight>
               <TouchableHighlight
                 style={styles.submitButton}
-                onPress={() => this.submitInput()}
+                onPress={this.submitInputFinalized}
               >
                 <Text style={styles.submitButtonText}>Submit</Text>
               </TouchableHighlight>
