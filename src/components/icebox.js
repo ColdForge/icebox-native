@@ -111,6 +111,23 @@ class Icebox extends Component {
     });
   }
 
+  renderSubmitButton(){
+    return this.state.text ? (
+      <TouchableHighlight
+        style={styles.submitTextButton}
+        onPress={() => this.submitInput()}
+      >
+        <Text style={styles.submitTextButtonText}>Submit Items!</Text>
+      </TouchableHighlight>
+    ) : (
+      <TouchableHighlight
+        style={styles.submitTextButtonDisabled}
+      >
+        <Text style={styles.submitTextButtonText}>   X   </Text>
+      </TouchableHighlight>
+    );
+  }
+
   renderListSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
     return (
       <View
@@ -259,6 +276,7 @@ class Icebox extends Component {
                 onChangeText={(text) => this.setState({text})}
                 value={this.state.text}
               />
+              {this.renderSubmitButton()}
               {this.renderActivity()}
               {this.renderLists()}
             </View>
@@ -347,6 +365,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 2,
     fontSize: 16
+  },
+  submitTextButton: {
+    backgroundColor: '#83E291',
+    alignItems: 'center',
+    borderRadius: 4,
+    marginTop: 5,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  submitTextButtonDisabled: {
+    backgroundColor: '#a6bfaa',
+    alignItems: 'center',
+    borderRadius: 4,
+    marginTop: 5,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  submitTextButtonText: {
+    color: 'white',
+    fontWeight: '800',
+    fontSize: 20,
   },
   itemList: {
     backgroundColor: 'white',
