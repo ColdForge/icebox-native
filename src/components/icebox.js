@@ -32,15 +32,16 @@ class Icebox extends Component {
       badItems: [],
       badItemToggles: {},
     }
-    this._setModalVisible = this._setModalVisible.bind(this);
+    this.renderModal = this.renderModal.bind(this);
     this.submitInput = this.submitInput.bind(this);
     this.renderLists = this.renderLists.bind(this);
     this.renderGoodListHeader = this.renderGoodListHeader.bind(this);
     this.renderBadListHeader = this.renderBadListHeader.bind(this);
     this.renderListSeparator = this.renderListSeparator.bind(this);
+    this.renderActivity = this.renderActivity.bind(this);
   }
 
-  _setModalVisible(bool){
+  renderModal(bool){
     this.setState({
       modalVisible: bool
     })
@@ -123,29 +124,35 @@ class Icebox extends Component {
   }
 
   renderGoodListHeader(){
-    return (
-      <View style={styles.goodListHeader}>
-        <Text style={styles.goodListHeaderText}>
-          Items added to your icebox:
+    return this.state.goodItems.length > 0 ? (
+      <View style={styles.listHeader}>
+        <Text style={styles.listHeaderTextLeft}>
+          Item Name:
+        </Text>
+        <Text style={styles.listHeaderTextRight}>
+          Add Items to Icebox?
         </Text>
       </View>
-    );
+    ) : (<Text></Text>);
   }
 
   renderBadListHeader(){
-    return (
-      <View style={styles.badListHeader}>
-        <Text style={styles.badListHeaderText}>
-          Items not added to your icebox:
+    return this.state.badItems.length > 0 ? (
+      <View style={styles.listHeader}>
+        <Text style={styles.listHeaderTextLeft}>
+          Item Name:
+        </Text>
+        <Text style={styles.listHeaderTextRight}>
+          Add Items to Icebox?
         </Text>
       </View>
-    );
+    ) : (<Text></Text>);
   }
 
   renderLists(){
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-    return (
+    return (this.state.goodItems.length > 0 || this.state.badItems.length > 0) ? (
       <TabBarIOS
         tintColor="green"
         barTintColor="#83E291">
@@ -157,7 +164,7 @@ class Icebox extends Component {
         >
           <View style={{flex: 1}}>
             <ListView
-              style={styles.goodItemList}
+              style={styles.itemList}
               dataSource={ds.cloneWithRows(this.state.goodItems)}
               renderRow={(item) => (
                 <View style={styles.listRow}>
@@ -179,6 +186,7 @@ class Icebox extends Component {
                 </View>
               )}
               renderSeparator={this.renderListSeparator}
+              renderHeader={this.renderGoodListHeader}
             />
           </View>
         </TabBarIOS.Item>
@@ -189,7 +197,7 @@ class Icebox extends Component {
         >
           <View style={{flex: 1}}>
           <ListView
-            style={styles.badItemList}
+            style={styles.itemList}
             dataSource={ds.cloneWithRows(this.state.badItems)}
             renderRow={(item) => (
               <View style={styles.listRow}>
@@ -211,11 +219,22 @@ class Icebox extends Component {
               </View>
             )}
             renderSeparator={this.renderListSeparator}
+            renderHeader={this.renderBadListHeader}
           />
           </View>
         </TabBarIOS.Item>
       </TabBarIOS>
-    );
+    ): (<Text></Text>);
+  }
+
+  renderActivity(){
+    return this.state.isLoading ? (
+      <ActivityIndicatorIOS
+        animating={this.state.isLoading}
+        style={{marginTop: 40}}
+        color="#111"
+        size="large"></ActivityIndicatorIOS>
+    ) : (<Text></Text>);
   }
 
   render() {
@@ -224,7 +243,7 @@ class Icebox extends Component {
         <Modal
           animationType={'none'}
           visible={this.state.modalVisible}
-          onRequestClose={() => this._setModalVisible(false)}
+          onRequestClose={() => this.renderModal(false)}
         >
           <View style={styles.containerModal}>
             <View style={styles.modalHeader}>
@@ -240,17 +259,13 @@ class Icebox extends Component {
                 onChangeText={(text) => this.setState({text})}
                 value={this.state.text}
               />
-              <ActivityIndicatorIOS
-                animating={this.state.isLoading}
-                style={{marginTop: 40}}
-                color="#111"
-                size="large"></ActivityIndicatorIOS>
+              {this.renderActivity()}
               {this.renderLists()}
             </View>
             <View style={styles.modalFooter}>
               <TouchableHighlight
                 style={styles.cancelButton}
-                onPress={() => this._setModalVisible(false)}
+                onPress={() => this.renderModal(false)}
               >
                 <Text style={styles.cancelButtonText}>Cancel</Text>
               </TouchableHighlight>
@@ -264,7 +279,7 @@ class Icebox extends Component {
           </View>
         </Modal>
         <View style={styles.containerInner}>
-          <IceboxToolbar openModal={this._setModalVisible.bind(this)}/>
+          <IceboxToolbar openModal={this.renderModal.bind(this)}/>
           <ScrollView>
             <VisibleIceboxList />
           </ScrollView>
@@ -333,42 +348,44 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     fontSize: 16
   },
-  goodItemList: {
+  itemList: {
     backgroundColor: 'white',
-    borderRadius: 4,
+  },
+  listHeader: {
+    flexDirection: 'row',
+  },
+  listHeaderTextLeft: {
     marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
-  },
-  goodListHeader: {
-    backgroundColor: 'grey',
-  },
-  goodListHeaderText: {
+    flex: 1,
     fontWeight: '700',
+    color: '#83E291',
+  },
+  listHeaderTextRight: {
+    marginRight: 10,
+    fontWeight: '700',
+    color: '#83E291',
   },
   badItemList: {
     backgroundColor: 'white',
-    borderRadius: 4,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
   },
   listRow: {
     flexDirection: 'row',
+    paddingLeft: 10,
+    paddingRight: 10,
     paddingTop: 4,
     paddingBottom: 4,
   },
   listRowItem: {
-    flex: 4,
-
+    flex: 2.5,
+    justifyContent: 'center',
   },
   listRowItemText: {
     fontSize: 18,
     fontWeight: '600',
   },
   listRowSwitch: {
-
-    alignSelf: 'flex-end',
+    flex: 0.5,
+    justifyContent: 'center',
   },
   modalFooter: {
     backgroundColor: '#83E291',
