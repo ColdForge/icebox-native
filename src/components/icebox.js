@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import {
+  ActivityIndicatorIOS,
   AsyncStorage,
-  Modal,
-  StyleSheet,
-  Text,
   ListView,
-  TabBarIOS,
-  TouchableHighlight,
+  Modal,
   ScrollView,
   StatusBar,
+  StyleSheet,
+  Switch,
+  TabBarIOS,
   TextInput,
-  ActivityIndicatorIOS,
+  Text,
+  TouchableHighlight,
   View
 } from 'react-native';
 import IceboxToolbar from '../containers/iceboxToolbar';
 import VisibleIceboxList from '../containers/visibleIceboxList';
+import { v4 } from 'react-native-uuid';
 
 class Icebox extends Component {
   constructor(props){
@@ -22,17 +24,20 @@ class Icebox extends Component {
     this.state = {
       modalVisible: false,
       isLoading: false,
+      submittedItems: false,
       text: '',
       selectedTab: 'goodItems',
       goodItems: [],
-      badItems: []
+      goodItemToggles: {},
+      badItems: [],
+      badItemToggles: {},
     }
     this._setModalVisible = this._setModalVisible.bind(this);
     this.submitInput = this.submitInput.bind(this);
     this.renderLists = this.renderLists.bind(this);
     this.renderGoodListHeader = this.renderGoodListHeader.bind(this);
     this.renderBadListHeader = this.renderBadListHeader.bind(this);
-    this.renderListSeperator = this.renderListSeperator.bind(this);
+    this.renderListSeparator = this.renderListSeparator.bind(this);
   }
 
   _setModalVisible(bool){
@@ -44,6 +49,7 @@ class Icebox extends Component {
   submitInput(){
     let itemString = this.state.text;
     this.setState({
+      submittedItems: true,
       isLoading: true
     })
     const getToken = async () => {
@@ -70,11 +76,28 @@ class Icebox extends Component {
       .then(rawResponse => rawResponse.json())
       .then(response => {
         console.log('response from post to icebox/native : ',response);
+        const goodItems = response.recognizedItems.map(item => (
+          { key: v4(), toggle: true, name: item.name, foodGroup: item.foodGroup }
+        ));
+        let goodItemToggles = {};
+        goodItems.forEach(item => {
+          goodItemToggles[item.key] = true;
+        });
+        const badItems = [...response.noExpirationItems, ...response.unrecognizedItems].map(item => (
+          { key: v4(), toggle: true, name: item.name }
+        ));
+        let badItemToggles = {};
+        badItems.forEach(item => {
+          badItemToggles[item.key] = true;
+        });
         this.setState({
           isLoading: false,
+          submittedItems: true,
           text: '',
-          goodItems: response.recognizedItems,
-          badItems: [...response.noExpirationItems, ...response.unrecognizedItems]
+          goodItems: [...this.state.goodItems, ...goodItems],
+          goodItemToggles: {...this.state.goodItemToggles, ...goodItemToggles},
+          badItems: [...this.state.badItems, ...badItems],
+          badItemToggles: {...this.state.badItemToggles, ...badItemToggles},
         })
       })
       .catch(error => {
@@ -87,7 +110,7 @@ class Icebox extends Component {
     });
   }
 
-  renderListSeperator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+  renderListSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
     return (
       <View
         key={`${sectionID}-${rowID}`}
@@ -137,9 +160,25 @@ class Icebox extends Component {
               style={styles.goodItemList}
               dataSource={ds.cloneWithRows(this.state.goodItems)}
               renderRow={(item) => (
-                <Text style={styles.listItem}>{item.name}</Text>
+                <View style={styles.listRow}>
+                  <View style={styles.listRowItem}>
+                    <Text style={styles.listRowItemText}>
+                      {item.name}
+                    </Text>
+                  </View>
+                  <View style={styles.listRowSwitch}>
+                    <Switch
+                      onValueChange={(value) => {
+                        this.setState({
+                          goodItemToggles: {...this.state.goodItemToggles, [item.key]: value}
+                        })
+                      }}
+                      value={this.state.goodItemToggles[item.key]}
+                    />
+                  </View>
+                </View>
               )}
-              renderSeparator={this.renderListSeperator}
+              renderSeparator={this.renderListSeparator}
             />
           </View>
         </TabBarIOS.Item>
@@ -149,71 +188,34 @@ class Icebox extends Component {
           onPress={() => {this.setState({ selectedTab: 'badItems' })}}
         >
           <View style={{flex: 1}}>
-            <ListView
-              style={styles.badItemList}
-              dataSource={ds.cloneWithRows(this.state.badItems)}
-              renderRow={(item) => (
-                <Text style={styles.listItem}>{item.name}</Text>
-              )}
-              renderSeparator={this.renderListSeperator}
-            />
+          <ListView
+            style={styles.badItemList}
+            dataSource={ds.cloneWithRows(this.state.badItems)}
+            renderRow={(item) => (
+              <View style={styles.listRow}>
+                <View style={styles.listRowItem}>
+                  <Text style={styles.listRowItemText}>
+                    {item.name}
+                  </Text>
+                </View>
+                <View style={styles.listRowSwitch}>
+                  <Switch
+                    onValueChange={(value) => {
+                      this.setState({
+                        badItemToggles: {...this.state.badItemToggles, [item.key]: value}
+                      })
+                    }}
+                    value={this.state.badItemToggles[item.key]}
+                  />
+                </View>
+              </View>
+            )}
+            renderSeparator={this.renderListSeparator}
+          />
           </View>
         </TabBarIOS.Item>
       </TabBarIOS>
     );
-
-    // if(this.state.goodItems.length > 0 && this.state.badItems.length > 0){
-    //   return (
-    //     <View style={{flex: 1}}>
-    //       <ListView
-    //         style={styles.goodItemList}
-    //         dataSource={ds.cloneWithRows(this.state.goodItems)}
-    //         renderRow={(item) => (
-    //           <Text>Name: {item.name}, Food Group: {item.foodGroup}</Text>
-    //         )}
-    //         renderHeader={this.renderGoodListHeader}
-    //         renderSeparator={this.renderListSeperator}
-    //       />
-    //       <ListView
-    //         style={styles.badItemList}
-    //         dataSource={ds.cloneWithRows(this.state.badItems)}
-    //         renderRow={(item) => (
-    //           <Text>Name: {item.name}</Text>
-    //         )}
-    //         renderHeader={this.renderBadListHeader}
-    //         renderSeparator={this.renderListSeperator}
-    //       />
-    //     </View>
-    //   );
-    // } else if (this.state.goodItems.length > 0) {
-    //   return (
-    //     <View style={{flex: 1}}>
-    //       <ListView
-    //         style={styles.goodItemList}
-    //         dataSource={ds.cloneWithRows(this.state.goodItems)}
-    //         renderRow={(item) => (
-    //           <Text>Name: {item.name}, Food Group: {item.foodGroup}</Text>
-    //         )}
-    //         renderHeader={this.renderGoodListHeader}
-    //         renderSeparator={this.renderListSeperator}
-    //       />
-    //     </View>
-    //   );
-    // } else if (this.state.badItems.length > 0) {
-    //   return (
-    //     <View style={{flex: 1}}>
-    //       <ListView
-    //         style={styles.badItemList}
-    //         dataSource={ds.cloneWithRows(this.state.badItems)}
-    //         renderRow={(item) => (
-    //           <Text>Name: {item.name}</Text>
-    //         )}
-    //         renderHeader={this.renderBadListHeader}
-    //         renderSeparator={this.renderListSeperator}
-    //       />
-    //     </View>
-    //   );
-    // } 
   }
 
   render() {
@@ -351,9 +353,22 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 10,
   },
-  listItem: {
+  listRow: {
+    flexDirection: 'row',
+    paddingTop: 4,
+    paddingBottom: 4,
+  },
+  listRowItem: {
+    flex: 4,
+
+  },
+  listRowItemText: {
     fontSize: 18,
     fontWeight: '600',
+  },
+  listRowSwitch: {
+
+    alignSelf: 'flex-end',
   },
   modalFooter: {
     backgroundColor: '#83E291',
