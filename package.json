@@ -12,6 +12,7 @@
     "react-native-drawer": "^2.2.4",
     "react-native-material-kit": "^0.3.2",
     "react-native-router-flux": "^3.30.0",
+    "react-native-search-bar": "^2.11.0",
     "react-native-simple-store": "^1.0.1",
     "react-native-uuid": "^1.4.8",
     "react-redux": "^4.4.5",
