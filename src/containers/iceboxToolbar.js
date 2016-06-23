@@ -12,6 +12,21 @@ import {
 } from 'react-native';
 import SearchBar from 'react-native-search-bar';
 
+const styles = StyleSheet.create({
+	toolbar: {
+		height: 80
+	},
+	button: {
+		height: 30,
+		backgroundColor: 'green',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	buttonText: {
+		color: 'white',
+		fontWeight: '700'
+	}
+});
 
 class IceboxToolbar extends Component {
 	constructor(props){
@@ -47,12 +62,20 @@ class IceboxToolbar extends Component {
 
 	render() {
 		return (
-			<SearchBar
-				ref='searchBar'
-				placeholder='Search for items'
-				onChangeText={this.handleSearch}
-				onCancelButtonPress={this.handleCancel}
-			/>
+			<View>
+				<SearchBar
+					ref='searchBar'
+					placeholder='Search for items'
+					onChangeText={this.handleSearch}
+					onCancelButtonPress={this.handleCancel}
+				/>
+				<TouchableHighlight
+					style={styles.button}
+					onPress={() => this.props.openModal(true)}
+				>
+					<Text style={styles.buttonText}>Add Items</Text>
+				</TouchableHighlight>
+			</View>
 		);
 	}
 }
@@ -62,75 +85,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, actions)(IceboxToolbar);
-
-		// <Toolbar style={styles.toolbar} noGutter={true}>
-		// 	<ToolbarGroup
-		// 		firstChild={true}
-		// 		style={styles.toolbarGroup1}
-		// 	>
-		// 		<IconButton
-		// 			tooltip="Search"
-		// 			style={styles.button}
-		// 			className="icebox-toolbar-search"
-		// 		>
-		// 			<SvgIcon className="icebox-toolbar-svgicon-search">
-		// 				<path d={ICONS.Search.d} />
-		// 			</SvgIcon>
-		// 		</IconButton>
-		// 		<TextField
-		// 			id="icebox-toolbar-search-field"
-		// 			value={this.props.iceboxSearch}
-		// 			onChange={event => this.handleSearch(event)}
-		// 			style={styles.textField}
-		// 		/>
-		// 		{this.renderClearSearchButton()}
-		// 	</ToolbarGroup>
-		// 	<ToolbarGroup
-		// 		style={styles.toolbarGroup2}
-		// 	>
-		// 		  <FoodItemInput submitFoods={this.submitFoods}/>
-
-		// 	</ToolbarGroup>
-		// 	<ToolbarGroup
-		// 		style={styles.toolbarGroup3}
-		// 	>
-		// 		<IconButton
-		// 			tooltip="Asc/Desc"
-		// 			style={styles.button}
-		// 			className="icebox-toolbar-sort-arrows"
-		// 			onClick={() => this.changeSortDirection()}
-		// 		>
-		// 			<SvgIcon className="icebox-toolbar-svgicon-sort-arrows">
-		// 				<path d={ICONS.SortArrows.d} />
-		// 			</SvgIcon>
-		// 		</IconButton>
-		// 		<ToolbarSeparator />
-		// 		<IconMenu
-		// 			iconButtonElement={
-		// 				<IconButton
-		// 					tooltip="Sort"
-		// 					style={styles.button}
-		// 					className="icebox-toolbar-sort"
-		// 				>
-		// 					<SvgIcon className="icebox-toolbar-svgicon-sort">
-		// 						<path d={ICONS.Sort.d} />
-		// 					</SvgIcon>
-		// 				</IconButton>
-		// 			}
-		// 			anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-  //     		targetOrigin={{horizontal: 'right', vertical: 'top'}}
-  //     		value={this.props.sortBy}
-  //     		onChange={(event,value) => this.handleFilterChange(event,value)}
-		// 		>
-		// 			<MenuItem
-		// 				value={SORT_EXPIRATION}
-		// 				primaryText="Sort By: Expiration"/>
-		// 			<MenuItem
-		// 				value={SORT_FOODGROUP}
-		// 				primaryText="Sort By: Food Group"/>
-		// 			<MenuItem
-		// 				value={SORT_FOODNAME}
-		// 				primaryText="Sort By: Food Name"/>
-		// 		</IconMenu>
-		// 	</ToolbarGroup>
-		// </Toolbar>
