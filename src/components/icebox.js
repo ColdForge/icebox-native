@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import {
+  AsyncStorage,
   Modal,
   StyleSheet,
   Text,
+  ListView,
+  TabBarIOS,
   TouchableHighlight,
   ScrollView,
   StatusBar,
@@ -12,7 +15,6 @@ import {
 } from 'react-native';
 import IceboxToolbar from '../containers/iceboxToolbar';
 import VisibleIceboxList from '../containers/visibleIceboxList';
-// import IceboxList from './iceboxList';
 
 class Icebox extends Component {
   constructor(props){
@@ -21,10 +23,16 @@ class Icebox extends Component {
       modalVisible: false,
       isLoading: false,
       text: '',
-      items: []
+      selectedTab: 'goodItems',
+      goodItems: [],
+      badItems: []
     }
     this._setModalVisible = this._setModalVisible.bind(this);
     this.submitInput = this.submitInput.bind(this);
+    this.renderLists = this.renderLists.bind(this);
+    this.renderGoodListHeader = this.renderGoodListHeader.bind(this);
+    this.renderBadListHeader = this.renderBadListHeader.bind(this);
+    this.renderListSeperator = this.renderListSeperator.bind(this);
   }
 
   _setModalVisible(bool){
@@ -64,7 +72,9 @@ class Icebox extends Component {
         console.log('response from post to icebox/native : ',response);
         this.setState({
           isLoading: false,
-          text: ''
+          text: '',
+          goodItems: response.recognizedItems,
+          badItems: [...response.noExpirationItems, ...response.unrecognizedItems]
         })
       })
       .catch(error => {
@@ -77,15 +87,133 @@ class Icebox extends Component {
     });
   }
 
-  renderActivityIndicator(){
-    if(this.props.isLoading){
-      return (
-        <ActivityIndicatorIOS
-          animating={this.state.isLoading}
-          size="large"
-        />
-      );
-    }
+  renderListSeperator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+    return (
+      <View
+        key={`${sectionID}-${rowID}`}
+        style={{
+          height: adjacentRowHighlighted ? 4 : 1,
+          backgroundColor: adjacentRowHighlighted ? '#3B5998' : '#CCCCCC',
+        }}
+      />
+    );
+  }
+
+  renderGoodListHeader(){
+    return (
+      <View style={styles.goodListHeader}>
+        <Text style={styles.goodListHeaderText}>
+          Items added to your icebox:
+        </Text>
+      </View>
+    );
+  }
+
+  renderBadListHeader(){
+    return (
+      <View style={styles.badListHeader}>
+        <Text style={styles.badListHeaderText}>
+          Items not added to your icebox:
+        </Text>
+      </View>
+    );
+  }
+
+  renderLists(){
+    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+    return (
+      <TabBarIOS
+        tintColor="green"
+        barTintColor="#83E291">
+        <TabBarIOS.Item
+          title="Recognized Items"
+          selected={this.state.selectedTab === 'goodItems'}
+          onPress={() => {this.setState({ selectedTab: 'goodItems' })}}
+          renderAsOriginal
+        >
+          <View style={{flex: 1}}>
+            <ListView
+              style={styles.goodItemList}
+              dataSource={ds.cloneWithRows(this.state.goodItems)}
+              renderRow={(item) => (
+                <Text style={styles.listItem}>{item.name}</Text>
+              )}
+              renderSeparator={this.renderListSeperator}
+            />
+          </View>
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title="Unrecognized Items"
+          selected={this.state.selectedTab === 'badItems'}
+          onPress={() => {this.setState({ selectedTab: 'badItems' })}}
+        >
+          <View style={{flex: 1}}>
+            <ListView
+              style={styles.badItemList}
+              dataSource={ds.cloneWithRows(this.state.badItems)}
+              renderRow={(item) => (
+                <Text style={styles.listItem}>{item.name}</Text>
+              )}
+              renderSeparator={this.renderListSeperator}
+            />
+          </View>
+        </TabBarIOS.Item>
+      </TabBarIOS>
+    );
+
+    // if(this.state.goodItems.length > 0 && this.state.badItems.length > 0){
+    //   return (
+    //     <View style={{flex: 1}}>
+    //       <ListView
+    //         style={styles.goodItemList}
+    //         dataSource={ds.cloneWithRows(this.state.goodItems)}
+    //         renderRow={(item) => (
+    //           <Text>Name: {item.name}, Food Group: {item.foodGroup}</Text>
+    //         )}
+    //         renderHeader={this.renderGoodListHeader}
+    //         renderSeparator={this.renderListSeperator}
+    //       />
+    //       <ListView
+    //         style={styles.badItemList}
+    //         dataSource={ds.cloneWithRows(this.state.badItems)}
+    //         renderRow={(item) => (
+    //           <Text>Name: {item.name}</Text>
+    //         )}
+    //         renderHeader={this.renderBadListHeader}
+    //         renderSeparator={this.renderListSeperator}
+    //       />
+    //     </View>
+    //   );
+    // } else if (this.state.goodItems.length > 0) {
+    //   return (
+    //     <View style={{flex: 1}}>
+    //       <ListView
+    //         style={styles.goodItemList}
+    //         dataSource={ds.cloneWithRows(this.state.goodItems)}
+    //         renderRow={(item) => (
+    //           <Text>Name: {item.name}, Food Group: {item.foodGroup}</Text>
+    //         )}
+    //         renderHeader={this.renderGoodListHeader}
+    //         renderSeparator={this.renderListSeperator}
+    //       />
+    //     </View>
+    //   );
+    // } else if (this.state.badItems.length > 0) {
+    //   return (
+    //     <View style={{flex: 1}}>
+    //       <ListView
+    //         style={styles.badItemList}
+    //         dataSource={ds.cloneWithRows(this.state.badItems)}
+    //         renderRow={(item) => (
+    //           <Text>Name: {item.name}</Text>
+    //         )}
+    //         renderHeader={this.renderBadListHeader}
+    //         renderSeparator={this.renderListSeperator}
+    //       />
+    //     </View>
+    //   );
+    // } 
   }
 
   render() {
@@ -101,7 +229,7 @@ class Icebox extends Component {
               <Text style={styles.modalHeaderText}>Adding Items</Text>
             </View>
             <View style={styles.modalBody}>
-              <Text style={{alignSelf: 'center', fontWeight: '800', color: 'white'}}>To enter items into your Icebox, follow these steps:</Text>
+              <Text style={{alignSelf: 'center', fontWeight: '800', color: '#83E291'}}>To enter items into your Icebox, follow these steps:</Text>
               <Text style={styles.directionText}>1. Click on the input box below </Text>
               <Text style={styles.directionText}>2. Activate your Speech-to-Text by using the Microphone Icon on the Keyboard </Text>
               <Text style={styles.directionText}>3. Once you have input all of your items, click the submit button! </Text>
@@ -115,6 +243,7 @@ class Icebox extends Component {
                 style={{marginTop: 40}}
                 color="#111"
                 size="large"></ActivityIndicatorIOS>
+              {this.renderLists()}
             </View>
             <View style={styles.modalFooter}>
               <TouchableHighlight
@@ -154,7 +283,7 @@ const styles = StyleSheet.create({
   },
   containerModal: {
     marginTop: 20,
-    backgroundColor: '#83E291',
+    backgroundColor: 'white',
     flex: 1,
     flexDirection: 'column',
   },
@@ -176,7 +305,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalHeaderText: {
-    color: 'white',
+    color: '#83E291',
     fontSize: 32,
     fontWeight: '800',
     justifyContent: 'center',
@@ -196,13 +325,38 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     height: 40,
-    backgroundColor: 'white',
+    backgroundColor: '#83E291',
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 2,
     fontSize: 16
   },
+  goodItemList: {
+    backgroundColor: 'white',
+    borderRadius: 4,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+  },
+  goodListHeader: {
+    backgroundColor: 'grey',
+  },
+  goodListHeaderText: {
+    fontWeight: '700',
+  },
+  badItemList: {
+    backgroundColor: 'white',
+    borderRadius: 4,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+  },
+  listItem: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
   modalFooter: {
+    backgroundColor: '#83E291',
     height: 80,
     paddingLeft: 20,
     paddingRight: 20,
