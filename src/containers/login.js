@@ -99,7 +99,7 @@ class Login extends Component {
 			    	onPress={this.loginWithFacebook}
 			    >
 			        <Text style={styles.whiteFont}>Login with Facebook</Text>
-			      </Icon.Button>
+		      </Icon.Button>
 			    <TouchableHighlight
 			    	style={styles.signup}
 			    	onPress={Actions.signup}

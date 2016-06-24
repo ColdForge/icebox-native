@@ -7,7 +7,7 @@ import {
   TouchableHighlight,
   Image
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { GiftedForm, GiftedFormManager } from 'react-native-gifted-form'
 import Dimensions from 'Dimensions';
 import { Actions } from "react-native-router-flux";
@@ -25,6 +25,10 @@ class Signup extends Component {
 
 	handleSubmit(){
 		Actions.dashboard();
+	}
+
+	signupWithFacebook(){
+		console.log('Facebook login used!')
 	}
 
 	handleUsernameInput(e){
@@ -174,13 +178,24 @@ class Signup extends Component {
 		          }}
 
 		        />
-		        <TouchableHighlight
-		        	style={styles.signup}
-		        	onPress={Actions.pop}
-		        >
-		            <Text style={styles.greyFont}>Already have an account?<Text style={styles.orangeFont}>  Login!</Text></Text>
-		        </TouchableHighlight>
+		        <View style={{marginLeft: 10, marginRight: 10}}>
+      		    <Icon.Button
+      		    	name="facebook"
+      		    	backgroundColor="#3b5998"
+      		    	style={styles.facebookButton}
+      		    	borderRadius={0}
+      		    	onPress={this.signupWithFacebook}
+      		    >
+      		        <Text style={styles.whiteFont}>Signup with Facebook</Text>
+      	      </Icon.Button>
+		        </View>
 		      </GiftedForm>
+	        <TouchableHighlight
+	        	style={styles.signup}
+	        	onPress={Actions.pop}
+	        >
+	            <Text style={styles.greyFont}>Already have an account?<Text style={styles.orangeFont}>  Login!</Text></Text>
+	        </TouchableHighlight>
 		    </View>
 	    </View>
     );
@@ -214,6 +229,13 @@ const styles = StyleSheet.create({
 		backgroundColor: '#F24F26',
 		padding: 20,
 		alignItems: 'center'
+	},
+	facebookButton: {
+		marginLeft: 10,
+		marginRight: 10,
+		padding: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	signup: {
 		justifyContent: 'center',
