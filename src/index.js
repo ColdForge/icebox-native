@@ -27,17 +27,12 @@ const store = configureStore();
 import Login from './containers/login';
 import Signup from './containers/signup';
 import Dashboard from './components/dashboard';
+import Scanner from './containers/scanner';
 import Icebox from './components/icebox';
 import Recipes from './components/recipes';
 import RecipeSuggestionList from './containers/recipeSuggestionList';
 import RecipeList from './containers/recipeList';
 import Drawer from './containers/drawer';
-
-class Right extends Component {
-  render(){
-		return <Text style={styles.back}>Back</Text>;
-  }
-}
 
 class BackButton extends Component {
 	render(){
@@ -100,7 +95,8 @@ class iceboxNative extends Component {
     				<Scene key="login" component={Login} title="Login" />
     				<Scene key="signup" component={Signup} title="Sign Up" />
     				<Scene key="dashboard" component={Dashboard} title="Dashboard" />
-						<Scene key="icebox" hideNavBar={false} component={Icebox} title="Icebox" renderRightButton={() => <AddItemsButton />}/>
+    				<Scene key="scanner" hideNavBar={false} component={Scanner} title="Scanner" />
+						<Scene key="icebox" hideNavBar={false} component={Icebox} title="Icebox" />
 						<Scene key="recipes" tabs={true} hideNavBar={false} component={Recipes} title="Recipes" />
 	          <Scene key="recipeSuggestionsTab" hideNavBar={false} component={RecipeSuggestionList} title="Suggestions" />
 	          <Scene key="pastSuggestionsTab" hideNavBar={false} component={RecipeList} title="Past Recipes" />
