@@ -14,6 +14,7 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import IceboxToolbar from '../containers/iceboxToolbar';
 import VisibleIceboxList from '../containers/visibleIceboxList';
 import { v4 } from 'react-native-uuid';
@@ -249,11 +250,12 @@ class Icebox extends Component {
       <TabBarIOS
         tintColor="green"
         barTintColor="#83E291">
-        <TabBarIOS.Item
+        <Icon.TabBarItem
           title="Recognized Items"
           selected={this.state.selectedTab === 'goodItems'}
           onPress={() => {this.setState({ selectedTab: 'goodItems' })}}
           renderAsOriginal
+          iconName="check"
         >
           <View style={{flex: 1}}>
             <ListView
@@ -282,11 +284,12 @@ class Icebox extends Component {
               renderHeader={this.renderGoodListHeader}
             />
           </View>
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
+        </Icon.TabBarItem>
+        <Icon.TabBarItem
           title="Unrecognized Items"
           selected={this.state.selectedTab === 'badItems'}
           onPress={() => {this.setState({ selectedTab: 'badItems' })}}
+          iconName="close"
         >
           <View style={{flex: 1}}>
           <ListView
@@ -315,7 +318,7 @@ class Icebox extends Component {
             renderHeader={this.renderBadListHeader}
           />
           </View>
-        </TabBarIOS.Item>
+        </Icon.TabBarItem>
       </TabBarIOS>
     ): (<Text></Text>);
   }
