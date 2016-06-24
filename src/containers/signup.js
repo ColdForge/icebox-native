@@ -7,6 +7,8 @@ import {
   TouchableHighlight,
   Image
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { GiftedForm, GiftedFormManager } from 'react-native-gifted-form'
 import Dimensions from 'Dimensions';
 import { Actions } from "react-native-router-flux";
 
@@ -42,51 +44,146 @@ class Signup extends Component {
 	render(){
 		return (
 			<View style={styles.container}>
-			    <Image style={styles.bg} source={require('../../assets/bg.jpeg')} />
-			    <View style={styles.header}>
-			        <Image style={styles.mark} source={{uri: 'http://i.imgur.com/da4G0Io.png'}} />
-			    </View>
-			    <View style={styles.inputs}>
-			        <View style={styles.inputContainer}>
-			            <Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
-			            <TextInput 
-			                style={[styles.input, styles.pinkFont]}
-			                placeholder="Email"
-			                placeholderTextColor="#FFF"
-			                value={this.state.username}
-			                onChange={this.handleUsernameInput.bind(this)}
-			            />
-			        </View>
-			        <View style={styles.inputContainer}>
-			            <Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
-			            <TextInput
-			                password={true}
-			                style={[styles.input, styles.pinkFont]}
-			                placeholder="Password"
-			                placeholderTextColor="#FFF"
-			                value={this.state.password}
-			                onChange={this.handlePasswordInput.bind(this)}
-			            />
-			        </View>
-			        <View style={styles.forgotContainer}>
-			            <Text style={styles.greyFont}>Forgot Password</Text>
-			        </View>
-			    </View>
-			    <TouchableHighlight
-			    	style={styles.signin}
-			    	onPress={this.handleSubmit.bind(this)}
-			    	underlayColor="white"
-			    >
-			    	<Text style={styles.blackFont}>Sign Up</Text>
-			    </TouchableHighlight>
-			    <TouchableHighlight
-			    	style={styles.signup}
-			    	onPress={Actions.login}
-			    >
-			        <Text style={styles.greyFont}>Have an account?<Text style={styles.whiteFont}>  Login</Text></Text>
-			    </TouchableHighlight>
-			</View>
-		);
+				<Image style={styles.bg} source={require('../../assets/bg.jpeg')} />
+				<View style={styles.header}>
+				</View>
+				<View style={styles.inputs}>
+					<GiftedForm
+		        formName='signupForm' // GiftedForm instances that use the same name will also share the same states
+
+		        openModal={(route) => {
+		          console.log('route in openModal is : ',route);
+		          // navigator.push(route); // The ModalWidget will be opened using this method. Tested with ExNavigator
+		        }}
+
+		        clearOnClose={false} // delete the values of the form when unmounted
+
+		        defaults={{
+		          /*
+		          username: 'Farid',
+		          'gender{M}': true,
+		          password: 'abcdefg',
+		          country: 'FR',
+		          birthday: new Date(((new Date()).getFullYear() - 18)+''),
+		          */
+		        }}
+
+		        validators={{
+		          fullName: {
+		            title: 'Full name',
+		            validate: [{
+		              validator: 'isLength',
+		              arguments: [1, 23],
+		              message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+		            }]
+		          },
+		          username: {
+		            title: 'Username',
+		            validate: [{
+		              validator: 'isLength',
+		              arguments: [3, 16],
+		              message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+		            },{
+		              validator: 'matches',
+		              arguments: /^[a-zA-Z0-9]*$/,
+		              message: '{TITLE} can contains only alphanumeric characters'
+		            }]
+		          },
+		          password: {
+		            title: 'Password',
+		            validate: [{
+		              validator: 'isLength',
+		              arguments: [6, 16],
+		              message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+		            }]
+		          },
+		          emailAddress: {
+		            title: 'Email address',
+		            validate: [{
+		              validator: 'isLength',
+		              arguments: [6, 255],
+		            },{
+		              validator: 'isEmail',
+		            }]
+		          },
+		          country: {
+		            title: 'Country',
+		            validate: [{
+		              validator: 'isLength',
+		              arguments: [2],
+		              message: '{TITLE} is required'
+		            }]
+		          },
+		        }}
+		      >
+
+		        <GiftedForm.SeparatorWidget />
+		        <GiftedForm.TextInputWidget
+		          name='emailAddress' // mandatory
+		          title='Email address'
+		          placeholder='example@nomads.ly'
+
+		          keyboardType='email-address'
+
+		          clearButtonMode='while-editing'
+
+		        />
+
+		        <GiftedForm.TextInputWidget
+		          name='fullName' // mandatory
+		          title='Full name'
+
+
+		          placeholder='Marco Polo'
+		          clearButtonMode='while-editing'
+		        />
+
+		        <GiftedForm.TextInputWidget
+		          name='password' // mandatory
+		          title='Password'
+
+		          placeholder='******'
+
+
+		          clearButtonMode='while-editing'
+		          secureTextEntry={true}
+		        />
+		        <GiftedForm.SeparatorWidget />
+
+		        <GiftedForm.SubmitWidget
+		          title='Sign up'
+		          widgetStyles={{
+		            submitButton: {
+		              backgroundColor: '#F24F26',
+		            }
+		          }}
+		          onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
+		            if (isValid === true) {
+		              // prepare object
+		              values.gender = values.gender[0];
+		              values.birthday = moment(values.birthday).format('YYYY-MM-DD');
+
+		              /* Implement the request to your server using values variable
+		              ** then you can do:
+		              ** postSubmit(); // disable the loader
+		              ** postSubmit(['An error occurred, please try again']); // disable the loader and display an error message
+		              ** postSubmit(['Username already taken', 'Email already taken']); // disable the loader and display an error message
+		              ** GiftedFormManager.reset('signupForm'); // clear the states of the form manually. 'signupForm' is the formName used
+		              */
+		            }
+		          }}
+
+		        />
+		        <TouchableHighlight
+		        	style={styles.signup}
+		        	onPress={Actions.pop}
+		        >
+		            <Text style={styles.greyFont}>Already have an account?<Text style={styles.orangeFont}>  Login!</Text></Text>
+		        </TouchableHighlight>
+		      </GiftedForm>
+		    </View>
+	    </View>
+    );
 	}
 }
 
@@ -114,7 +211,7 @@ const styles = StyleSheet.create({
 		height: 150
 	},
 	signin: {
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#F24F26',
 		padding: 20,
 		alignItems: 'center'
 	},
@@ -126,14 +223,14 @@ const styles = StyleSheet.create({
 	inputs: {
 		marginTop: 10,
 		marginBottom: 10,
-		flex: .25
+		flex: .5
 	},
 	inputPassword: {
 		marginLeft: 15,
 		width: 20,
 		height: 21
 	},
-	inputUsername: {
+	inputEmail: {
 		marginLeft: 15,
 		width: 20,
 		height: 20
@@ -145,22 +242,35 @@ const styles = StyleSheet.create({
     borderColor: 'transparent'
 	},
 	input: {
-	    position: 'absolute',
-	    left: 61,
-	    top: 12,
-	    right: 0,
-	    height: 20,
-	    fontSize: 14
+    position: 'absolute',
+    left: 61,
+    top: 12,
+    right: 0,
+    height: 20,
+    fontSize: 16,
+    fontWeight: '500',
 	},
 	forgotContainer: {
 	  alignItems: 'flex-end',
 	  padding: 15,
 	},
 	greyFont: {
-	  color: '#D8D8D8'
+	  color: '#D8D8D8',
+	  fontSize: 14,
+	  fontWeight: '700',
 	},
 	blackFont: {
 	  color: '#000'
+	},
+	whiteFont: {
+		color: '#FFF',
+		fontSize: 18,
+		fontWeight: '700',
+	},
+	orangeFont: {
+		color: '#F24F26',
+		fontWeight: '800',
+		fontSize: 16,
 	},
 	pinkFont: {
 		color: '#FF3366',
