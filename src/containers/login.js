@@ -76,7 +76,7 @@ class Login extends Component {
 			            />
 			        </View>
 			        <View style={styles.forgotContainer}>
-			            <Text style={styles.greyFont}>Forgot Password</Text>
+			            <Text style={styles.orangeFont}>Forgot Password?</Text>
 			        </View>
 			    </View>
 			    <TouchableHighlight
@@ -84,13 +84,13 @@ class Login extends Component {
 			    	onPress={handleSubmit(this.handleFormSubmit.bind(this))}
 			    	underlayColor="white"
 			    >
-			    	<Text style={styles.blackFont}>Login</Text>
+			    	<Text style={styles.whiteFont}>Login</Text>
 			    </TouchableHighlight>
 			    <TouchableHighlight
 			    	style={styles.signup}
 			    	onPress={Actions.signup}
 			    >
-			        <Text style={styles.greyFont}>Don't have an account?<Text style={styles.whiteFont}>  Sign Up</Text></Text>
+			        <Text style={styles.greyFont}>Don't have an account?<Text style={styles.orangeFont}>  Sign Up!</Text></Text>
 			    </TouchableHighlight>
 			</View>
 		);
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 	header: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		flex: .5,
+		flex: .4,
 		backgroundColor: 'transparent'
 	},
 	mark: {
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 		height: 150
 	},
 	signin: {
-		backgroundColor: '#FFFFFF',
+		backgroundColor: '#F24F26',
 		padding: 20,
 		alignItems: 'center'
 	},
@@ -157,17 +157,30 @@ const styles = StyleSheet.create({
 	    top: 12,
 	    right: 0,
 	    height: 20,
-	    fontSize: 14
+	    fontSize: 16,
+	    fontWeight: '500',
 	},
 	forgotContainer: {
 	  alignItems: 'flex-end',
 	  padding: 15,
 	},
 	greyFont: {
-	  color: '#D8D8D8'
+	  color: '#D8D8D8',
+	  fontSize: 14,
+	  fontWeight: '700',
 	},
 	blackFont: {
 	  color: '#000'
+	},
+	whiteFont: {
+		color: '#FFF',
+		fontSize: 18,
+		fontWeight: '700',
+	},
+	orangeFont: {
+		color: '#F24F26',
+		fontWeight: '800',
+		fontSize: 16,
 	},
 	pinkFont: {
 		color: '#FF3366',
