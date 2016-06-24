@@ -8,6 +8,7 @@ import {
   Image
 } from 'react-native';
 import { reduxForm } from 'redux-form';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Dimensions from 'Dimensions';
 import { Actions } from "react-native-router-flux";
 import * as actions from '../actions';
@@ -26,6 +27,10 @@ class Login extends Component {
 	handleFormSubmit({ email, password }){
 		console.log('handleFormSubmit called');
 		this.props.signinUser({ email, password });
+	}
+
+	loginWithFacebook(){
+		console.log('Facebook login used!')
 	}
 
 	handleEmailInput(e){
@@ -86,6 +91,15 @@ class Login extends Component {
 			    >
 			    	<Text style={styles.whiteFont}>Login</Text>
 			    </TouchableHighlight>
+			    <Icon.Button
+			    	name="facebook"
+			    	backgroundColor="#3b5998"
+			    	style={styles.facebookButton}
+			    	borderRadius={0}
+			    	onPress={this.loginWithFacebook}
+			    >
+			        <Text style={styles.whiteFont}>Login with Facebook</Text>
+			      </Icon.Button>
 			    <TouchableHighlight
 			    	style={styles.signup}
 			    	onPress={Actions.signup}
@@ -124,6 +138,11 @@ const styles = StyleSheet.create({
 		backgroundColor: '#F24F26',
 		padding: 20,
 		alignItems: 'center'
+	},
+	facebookButton: {
+		padding: 20,
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	signup: {
 		justifyContent: 'center',
