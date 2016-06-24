@@ -34,6 +34,12 @@ class Dashboard extends Component {
     return (
       <View style={styles.container}>
         <TouchableHighlight
+            style={styles.cameraButton}
+            onPress={Actions.scanner}
+            underlayColor="#88D4F5">
+              <Text style={styles.buttonText}>My Camera</Text>
+        </TouchableHighlight>
+        <TouchableHighlight
             style={styles.iceboxButton}
             onPress={Actions.icebox}
             underlayColor="#88D4F5">
@@ -54,18 +60,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  cameraButton: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    backgroundColor: '#A53934',
+    flex: 1
+  },
   iceboxButton: {
     flexDirection: 'row',
     alignSelf: 'stretch',
     justifyContent: 'center',
-    backgroundColor: '#CFF09E',
+    backgroundColor: '#EEB87C',
     flex: 1
   },
   recipesButton: {
     flexDirection: 'row',
     alignSelf: 'stretch',
     justifyContent: 'center',
-    backgroundColor: '#A8DBA8',
+    backgroundColor: '#A1B38E',
     flex: 1
   },
   buttonText: {
