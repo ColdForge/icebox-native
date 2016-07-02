@@ -3,7 +3,7 @@ import { AsyncStorage, AlertIOS } from 'react-native';
 import * as TYPES from '../constants/actions';
 import { Actions } from "react-native-router-flux";
 
-const API_URL = 'http://192.168.1.53:8080';
+const API_URL = 'http://192.168.1.120:8080';
 
 const getToken = async () => {
 	try {
@@ -151,7 +151,7 @@ export const getRecipes = () => (
 			.then(rawResponse => rawResponse.json())
 			.then(response => {
 				console.log('response from getRecipes : ',response);
-				dispatch({ type: TYPES.GET_RECIPES, payload: response });
+				dispatch({ type: TYPES.GET_RECIPES, payload: response.pastRecipes });
 			})
 			.catch(error => {
 				console.log('error on getRecipes fetch of : ',error);
@@ -175,8 +175,8 @@ export const getRecipeSuggestions = () => (
 			})
 			.then(rawResponse => rawResponse.json())
 			.then(response => {
-				console.log('response from getRecipes : ',response);
-				dispatch({ type: TYPES.GET_RECIPE_SUGGESTIONS, payload: response });
+				console.log('response from getRecipeSuggestions : ',response);
+				dispatch({ type: TYPES.GET_RECIPE_SUGGESTIONS, payload: response.suggestions });
 			})
 			.catch(error => {
 				console.log('error on getRecipeSuggestions fetch of : ',error);
