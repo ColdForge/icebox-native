@@ -95,7 +95,7 @@ class iceboxNative extends Component {
     			<Scene key="root" hideNavBar hideTabBar>
     				<Scene key="login" component={Login} title="Login" />
     				<Scene key="signup" component={Signup} title="Sign Up" />
-    				<Scene key="dashboard" hideNavBar={false} component={Dashboard} title="Icebox" />
+    				<Scene key="dashboard" component={Dashboard} title="Icebox" />
 		      </Scene>
     		</Router>
     	</Provider>

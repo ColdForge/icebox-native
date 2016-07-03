@@ -14,7 +14,7 @@ import SearchBar from 'react-native-search-bar';
 
 const styles = StyleSheet.create({
 	toolbar: {
-		height: 80
+		height: 74,
 	},
 	button: {
 		height: 30,
@@ -62,7 +62,7 @@ class IceboxToolbar extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={styles.toolbar}>
 				<SearchBar
 					ref='searchBar'
 					placeholder='Search for items'

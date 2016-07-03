@@ -9,7 +9,7 @@ import IceboxListItem from './iceboxListItem';
 
 const styles = StyleSheet.create({
 	list: {
-	  
+
 	}
 })
 
