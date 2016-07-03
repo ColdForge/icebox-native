@@ -2,6 +2,7 @@
 import { AsyncStorage, AlertIOS } from 'react-native';
 import * as TYPES from '../constants/actions';
 import { Actions } from "react-native-router-flux";
+import { reset } from 'redux-form';
 
 const API_URL = 'http://localhost:8080';
 // const API_URL = 'http://192.168.1.120:8080';
@@ -59,6 +60,7 @@ export const signinUser = ({ email, password }) => (
 		.then(response => {
 			console.log('response is : ',response);
 			setToken(response.token);
+			dispatch(reset('login'));
 			dispatch({ type: TYPES.AUTHORIZE_USER });
 			dispatch({ type: TYPES.GET_USER_INFO, payload: response });
 			dispatch({ type: TYPES.POPULATE_ICEBOX, payload: response.contents });
@@ -92,14 +94,15 @@ export const signupUser = ({ email, name, password }) => (
 	}
 );
 
-export const signoutUser = () => {
-	localStorage.removeItem('token');
-	browserHistory.push('/');
-	return dispatch => {
-		dispatch({ type: TYPES.DEAUTHORIZE_USER });
-		dispatch({ type: TYPES.CLEAR_USER_INFO });
-	};
-};
+export const signoutUser = () => (
+	dispatch => {
+		removeToken().then(() => {
+			dispatch({ type: TYPES.DEAUTHORIZE_USER });
+			dispatch({ type: TYPES.CLEAR_USER_INFO });
+			Actions.login();
+		});
+	}
+);
 
 export const setSortBy = (sort) => ({
 	type: TYPES.SET_SORT,
