@@ -38,6 +38,7 @@ export const authError = (error) => ({
 
 export const signinUser = ({ email, password }) => (
 	(dispatch) => {
+		dispatch({ type: TYPES.START_LOADING });
 		console.log('signinUser action called with email: ',email,' password: ',password);
 		fetch(`${API_URL}/user/signin`, {
 			method: 'POST',
@@ -60,10 +61,12 @@ export const signinUser = ({ email, password }) => (
 			dispatch({ type: TYPES.AUTHORIZE_USER });
 			dispatch({ type: TYPES.GET_USER_INFO, payload: response });
 			dispatch({ type: TYPES.POPULATE_ICEBOX, payload: response.contents });
+			dispatch({ type: TYPES.STOP_LOADING});
 			Actions.dashboard();
 		})
 		.catch(error => {
 			console.log('error on signinUser fetch of : ',error);
+			dispatch({ type: TYPES.STOP_LOADING });
 			dispatch(authError(error));
 		});
 	}
@@ -71,15 +74,18 @@ export const signinUser = ({ email, password }) => (
 
 export const signupUser = ({ email, name, password }) => (
 	(dispatch) => {
+		dispatch({ type: TYPES.START_LOADING });
 		axios.post(`${API_URL}/user/signup`, { email, name, password })
 			.then(response => {
 				dispatch({ type: TYPES.AUTHORIZE_USER });
 				dispatch({ type: TYPES.GET_USER_INFO, payload: response.data });
 				localStorage.setItem('token', response.data.token);
+				dispatch({ type: TYPES.STOP_LOADING });
 				browserHistory.push('/icebox');
 			})
 			.catch(response => {
 				// console.log('error in signup user, response of : ',response);
+				dispatch({ type: TYPES.STOP_LOADING });
 				dispatch(authError(response.data.error));
 			});
 	}

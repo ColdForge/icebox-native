@@ -23,3 +23,6 @@ export const GET_RECIPES = "GET_RECIPES";
 export const GET_RECIPE_SUGGESTIONS = "GET_RECIPE_SUGGESTIONS";
 export const SET_CHOSEN_RECIPE = "SET_CHOSEN_RECIPE";
 export const CLEAR_CHOSEN_RECIPE = "CLEAR_CHOSEN_RECIPE";
+// ActionTypes for loading
+export const START_LOADING = "START_LOADING";
+export const STOP_LOADING = "STOP_LOADING";
