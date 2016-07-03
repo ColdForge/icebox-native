@@ -50,9 +50,24 @@ class Dashboard extends Component {
     return (
     	<View style={styles.container}>
     		<View style={styles.header}>
-    			<Text style={styles.title}>
-    				Icebox
-    			</Text>
+    			<View style={styles.headerLeft}>
+    			</View>
+    			<View style={styles.headerMiddle}>
+    				<Text style={styles.title}>
+    					Icebox
+    				</Text>
+    			</View>
+    			<View style={styles.headerRight}>
+    				<TouchableHighlight
+    					onPress={()=>this.props.signoutUser()}
+    					style={styles.logoutButton}
+    					underlayColor={'white'}
+    				>
+    					<Text style={styles.logout}>
+    						Logout
+    					</Text>
+    				</TouchableHighlight>
+    			</View>
     		</View>
     		<View style={styles.body}>
 		      <TabBarIOS
@@ -132,6 +147,30 @@ const styles = StyleSheet.create({
   	flexDirection: 'row',
   	justifyContent: 'center',
   	alignItems: 'center',
+  },
+  headerLeft: {
+  	width: 90,
+  },
+  headerMiddle: {
+  	flex: 1,
+  },
+  headerRight: {
+  	width: 90,
+  	height: 56,
+  	flexDirection: 'row',
+  	justifyContent: 'flex-end',
+  	alignItems: 'center',
+  	paddingRight: 12,
+  },
+  logoutButton: {
+  	width: 60,
+  	height: 40,
+  	borderRadius: 5,
+  	justifyContent: 'center',
+  	alignItems: 'center',
+  },
+  logout: {
+  	fontSize: 16,
   },
   title: {
   	fontFamily: 'SnellRoundhand-Black',
