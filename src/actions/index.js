@@ -3,7 +3,8 @@ import { AsyncStorage, AlertIOS } from 'react-native';
 import * as TYPES from '../constants/actions';
 import { Actions } from "react-native-router-flux";
 
-const API_URL = 'http://192.168.1.120:8080';
+const API_URL = 'http://localhost:8080';
+// const API_URL = 'http://192.168.1.120:8080';
 
 const getToken = async () => {
 	try {
