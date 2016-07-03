@@ -8,9 +8,9 @@ import {
 import IceboxListItem from './iceboxListItem';
 
 const styles = StyleSheet.create({
-	list: {
-
-	}
+	container: {
+		flex: 1,
+	},
 })
 
 class IceboxList extends Component {
@@ -30,22 +30,23 @@ class IceboxList extends Component {
 		let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.key !== r2.key});
 
 		return (
-			<ListView
-				contentContainerStyle={styles.list}
-				dataSource={ds.cloneWithRows(this.props.contents)}
-				renderRow={(item) => (
-					<IceboxListItem
-						key={item.key}
-						item={item}
-						name={item.name}
-						foodGroup={item.foodGroup}
-						expiration={item.expiration}
-						iconPath={item.iconPath}
-					/>
-				)}
-				renderSeparator={this._renderSeperator}
-				initialListSize={15}
-			/>
+			<View style={styles.container}>
+				<ListView
+					dataSource={ds.cloneWithRows(this.props.contents)}
+					renderRow={(item) => (
+						<IceboxListItem
+							key={item.key}
+							item={item}
+							name={item.name}
+							foodGroup={item.foodGroup}
+							expiration={item.expiration}
+							iconPath={item.iconPath}
+						/>
+					)}
+					renderSeparator={this._renderSeperator}
+					initialListSize={15}
+				/>
+			</View>
 		);
 	}
 }

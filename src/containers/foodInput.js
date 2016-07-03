@@ -39,6 +39,8 @@ class FoodInput extends Component {
     this.renderBadListHeader = this.renderBadListHeader.bind(this);
     this.renderListSeparator = this.renderListSeparator.bind(this);
     this.renderActivity = this.renderActivity.bind(this);
+    this.renderFooterButtons = this.renderFooterButtons.bind(this);
+    this.clearSubmission = this.clearSubmission.bind(this);
   }
 
   renderModal(bool){
@@ -63,7 +65,7 @@ class FoodInput extends Component {
     }
     getToken().then(token => {
       // console.log('token from getToken is : ',token);
-      fetch(`http://192.168.1.53:8080/api/icebox/native-check`, {
+      fetch(`http://localhost:8080/api/icebox/native-check`, {
         method: 'POST',
         headers: {
           'authorization': token,
@@ -185,6 +187,17 @@ class FoodInput extends Component {
     // });
   }
 
+  clearSubmission(){
+    this.setState({
+      submittedItems: false,
+      text: '',
+      goodItems: [],
+      goodItemToggles: {},
+      badItems: [],
+      badItemToggles: {},
+    })
+  }
+
 
   renderSubmitButton(){
     return this.state.text ? (
@@ -259,6 +272,7 @@ class FoodInput extends Component {
             <ListView
               style={styles.itemList}
               dataSource={ds.cloneWithRows(this.state.goodItems)}
+              enableEmptySections={true}
               renderRow={(item) => (
                 <View style={styles.listRow}>
                   <View style={styles.listRowItem}>
@@ -293,6 +307,7 @@ class FoodInput extends Component {
           <ListView
             style={styles.itemList}
             dataSource={ds.cloneWithRows(this.state.badItems)}
+            enableEmptySections={true}
             renderRow={(item) => (
               <View style={styles.listRow}>
                 <View style={styles.listRowItem}>
@@ -331,6 +346,30 @@ class FoodInput extends Component {
     ) : (<Text></Text>);
   }
 
+  renderFooterButtons(){
+    return this.state.goodItems.length > 0 || this.state.badItems.length > 0 ? 
+    (
+      [
+        <TouchableHighlight
+          key={1}
+          style={styles.cancelButton}
+          onPress={this.clearSubmission}
+        >
+          <Text style={styles.cancelButtonText}>Cancel</Text>
+        </TouchableHighlight>,
+        <TouchableHighlight
+          key={2}
+          style={styles.submitButton}
+          onPress={this.submitInputFinalized}
+        >
+          <Text style={styles.submitButtonText}>Submit</Text>
+        </TouchableHighlight>
+      ]
+    ) : (
+      <View></View>
+    );
+  }
+
   render() {
   	return (
   		<View style={styles.containerModal}>
@@ -352,18 +391,7 @@ class FoodInput extends Component {
   		    {this.renderLists()}
   		  </View>
   		  <View style={styles.modalFooter}>
-  		    <TouchableHighlight
-  		      style={styles.cancelButton}
-  		      onPress={() => this.renderModal(false)}
-  		    >
-  		      <Text style={styles.cancelButtonText}>Cancel</Text>
-  		    </TouchableHighlight>
-  		    <TouchableHighlight
-  		      style={styles.submitButton}
-  		      onPress={this.submitInputFinalized}
-  		    >
-  		      <Text style={styles.submitButtonText}>Submit</Text>
-  		    </TouchableHighlight>
+          {this.renderFooterButtons()}
   		  </View>
   		</View>
   	);
@@ -381,10 +409,10 @@ const styles = StyleSheet.create({
     flex: 1
   },
   containerModal: {
-    marginTop: 20,
     backgroundColor: 'white',
     flex: 1,
     flexDirection: 'column',
+    marginBottom: 44,
   },
   activity: {
     flex: 1,
@@ -492,22 +520,23 @@ const styles = StyleSheet.create({
   },
   modalFooter: {
     backgroundColor: '#83E291',
-    height: 80,
-    paddingLeft: 20,
-    paddingRight: 20,
+    height: 60,
+    // paddingLeft: 20,
+    // paddingRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
   },
   submitButton: {
-    marginTop: 10,
-    marginRight: 30,
-    marginLeft: 30,
-    marginBottom: 10,
+    // marginTop: 10,
+    // marginRight: 30,
+    // marginLeft: 30,
+    // marginBottom: 10,
     height: 60,
-    width: 100,
+    // width: 100,
+    flex: 1,
     backgroundColor: 'green',
-    borderRadius: 50,
+    // borderRadius: 50,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center'
@@ -518,14 +547,15 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   cancelButton: {
-    marginTop: 10,
-    marginRight: 30,
-    marginLeft: 30,
-    marginBottom: 10,
+    // marginTop: 10,
+    // marginRight: 30,
+    // marginLeft: 30,
+    // marginBottom: 10,
     height: 60,
-    width: 100,
+    // width: 100,
+    flex: 1,
     backgroundColor: 'red',
-    borderRadius: 50,
+    // borderRadius: 50,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center'

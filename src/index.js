@@ -27,13 +27,13 @@ const store = configureStore();
 import Login from './containers/login';
 import Signup from './containers/signup';
 import Dashboard from './components/dashboard';
-import Scanner from './containers/scanner';
-import Icebox from './components/icebox';
-import Recipes from './components/recipes';
-import RecipeSuggestionList from './containers/recipeSuggestionList';
-import RecipeList from './containers/recipeList';
-import Drawer from './containers/drawer';
-import FoodInput from './containers/foodInput';
+// import Scanner from './containers/scanner';
+// import Icebox from './components/icebox';
+// import Recipes from './components/recipes';
+// import RecipeSuggestionList from './containers/recipeSuggestionList';
+// import RecipeList from './containers/recipeList';
+// import Drawer from './containers/drawer';
+// import FoodInput from './containers/foodInput';
 
 class BackButton extends Component {
 	render(){

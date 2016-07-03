@@ -14,7 +14,7 @@ import SearchBar from 'react-native-search-bar';
 
 const styles = StyleSheet.create({
 	toolbar: {
-		height: 54,
+		height: 72,
 	},
 	button: {
 		height: 30,
