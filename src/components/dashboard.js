@@ -14,7 +14,7 @@ import { Actions } from "react-native-router-flux";
 import RecipeList from '../containers/recipeList';
 import RecipeSuggestionList from '../containers/recipeSuggestionList';
 import Icebox from './icebox';
-// import FoodInput from '../containers/foodInput';
+import FoodInput from '../containers/foodInput';
 // import Settings from '../containers/settings';
 
 class Dashboard extends Component {
@@ -25,6 +25,7 @@ class Dashboard extends Component {
       recipesReceived: false,
       selectedTab: 'icebox',
     };
+    this.routeToInput = this.routeToInput.bind(this);
   }
 	componentDidMount() {
 		if(this.props.suggestions.length === 0){
@@ -35,6 +36,12 @@ class Dashboard extends Component {
       console.log('recipes in dashboard empty')
       this.props.getRecipes();
     }
+	}
+
+	routeToInput(){
+		this.setState({
+			selectedTab: 'input'
+		})
 	}
 
   render() {
@@ -55,7 +62,7 @@ class Dashboard extends Component {
               selectedTab: 'icebox',
             });
           }}>
-          <Icebox />
+          <Icebox routeToInput={this.routeToInput}/>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Suggestions"
@@ -77,7 +84,7 @@ class Dashboard extends Component {
               selectedTab: 'input',
             });
           }}>
-          <RecipeSuggestionList />
+          <FoodInput />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Past Recipes"

@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   Image
 } from 'react-native';
+import { Actions } from "react-native-router-flux";
 import SearchBar from 'react-native-search-bar';
 
 const styles = StyleSheet.create({
@@ -70,7 +71,7 @@ class IceboxToolbar extends Component {
 				/>
 				<TouchableHighlight
 					style={styles.button}
-					onPress={() => this.props.openModal(true)}
+					onPress={this.props.routeToInput}
 				>
 					<Text style={styles.buttonText}>Add Items</Text>
 				</TouchableHighlight>

@@ -7,10 +7,10 @@ import {
 import IceboxToolbar from '../containers/iceboxToolbar';
 import VisibleIceboxList from '../containers/visibleIceboxList';
 
-const Icebox = () => (
+const Icebox = ({ routeToInput }) => (
   <View style={styles.container}>
     <View style={styles.containerInner}>
-      <IceboxToolbar />
+      <IceboxToolbar routeToInput={routeToInput} />
       <ScrollView>
         <VisibleIceboxList />
       </ScrollView>

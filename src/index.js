@@ -33,6 +33,7 @@ import Recipes from './components/recipes';
 import RecipeSuggestionList from './containers/recipeSuggestionList';
 import RecipeList from './containers/recipeList';
 import Drawer from './containers/drawer';
+import FoodInput from './containers/foodInput';
 
 class BackButton extends Component {
 	render(){
@@ -94,18 +95,20 @@ class iceboxNative extends Component {
     			<Scene key="root" hideNavBar hideTabBar>
     				<Scene key="login" component={Login} title="Login" />
     				<Scene key="signup" component={Signup} title="Sign Up" />
-    				<Scene key="dashboard" tabs={true} hideNavBar={false} component={Dashboard} title="Dashboard" />
-    				<Scene key="scanner" hideNavBar={false} component={Scanner} title="Scanner" />
-						<Scene key="icebox" hideNavBar={false} component={Icebox} title="Icebox" />
-						<Scene key="recipes" tabs={true} hideNavBar={false} component={Recipes} title="Recipes" />
-	          <Scene key="recipeSuggestionsTab" hideNavBar={false} component={RecipeSuggestionList} title="Suggestions" />
-	          <Scene key="pastSuggestionsTab" hideNavBar={false} component={RecipeList} title="Past Recipes" />
+    				<Scene key="dashboard" hideNavBar={false} component={Dashboard} title="Icebox" />
 		      </Scene>
     		</Router>
     	</Provider>
     );
   }
 }
+
+// <Scene key="scanner" hideNavBar={false} component={Scanner}  />
+// <Scene key="icebox" hideNavBar={false} component={Icebox}  />
+// <Scene key="recipes" tabs={true} hideNavBar={false} component={Recipes}  />
+// <Scene key="recipeSuggestions" hideNavBar={false} component={RecipeSuggestionList}  />
+// <Scene key="foodInput" hideNavBar={false} component={FoodInput}  />
+// <Scene key="pastSuggestions" hideNavBar={false} component={RecipeList}  />
 
 const styles = StyleSheet.create({
   container: {
