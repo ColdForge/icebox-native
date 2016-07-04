@@ -9,8 +9,10 @@ import { connect } from 'react-redux';
 import RecipeListItem from '../components/recipeListItem';
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
 	list: {
-	  marginTop: 40,
 	  marginBottom: 50
 	}
 })
@@ -38,23 +40,27 @@ class RecipeList extends Component {
 	}
 
 	render(){
+		console.log('this.props.recipes are : ',this.props.recipes);
 		return (
+			<View style={styles.container}>
 			<ListView
 				contentContainerStyle={styles.list}
 				dataSource={this.state.dataSource}
 				enableEmptySections={true}
 				renderRow={recipe => (
 					<RecipeListItem
-						key={recipe.key}
-						name={recipe.name}
+						key={recipe.id}
+						recipe={recipe}
+						title={recipe.title}
 						imageUrl={recipe.image}
 						sourceUrl={recipe.sourceUrl}
-						recipeID={recipe.recipeID}
-						prepTime={recipe.readyInMinutes}
+						servings={recipe.servings}
+						readyInMinutes={recipe.readyInMinutes}
 					/>
 				)}
 				renderSeparator={this._renderSeperator}
 			/>
+			</View>
 		);
 	}
 }

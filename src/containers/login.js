@@ -26,7 +26,7 @@ class Login extends Component {
 
 	handleFormSubmit({ email, password }){
 		console.log('handleFormSubmit called');
-		this.props.signinUser({ email, password });
+		this.props.signinUser({ email, password })
 	}
 
 	loginWithFacebook(){

@@ -15,8 +15,8 @@ import DUMMY_PAST_SUGGESTIONS from '../data/dummyRecipeList';
 const configureStore = (testMode,state) => {
 	// const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
   let persistedState = {
-    icebox: { contents: DUMMY_ICEBOX, noExpirationItems: [], noFoodGroupItems: [] },
-    recipes: { pastSuggestions: DUMMY_PAST_SUGGESTIONS, suggestions: [], chosenRecipe: null }
+    // icebox: { contents: DUMMY_ICEBOX, noExpirationItems: [], noFoodGroupItems: [] },
+    // recipes: { pastSuggestions: DUMMY_PAST_SUGGESTIONS, suggestions: [], chosenRecipe: null }
   };
   // return createStoreWithMiddleware(reducers,persistedState,devTools());
   const enhancer = compose(applyMiddleware(reduxThunk),devTools());

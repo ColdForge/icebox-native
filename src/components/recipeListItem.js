@@ -71,14 +71,14 @@ const styles = StyleSheet.create({
 	}
 });
 
-const RecipeListItem = ({ name, imageUrl, sourceUrl, recipeID, prepTime }) => {
+const RecipeListItem = ({ recipe, title, imageUrl, sourceUrl, readyInMinutes, servings }) => {
 	
 	return (
 		<View style={styles.row}>
 			<View style={styles.body}>
-				<Text style={styles.title}>{name}</Text>
+				<Text style={styles.title}>{title}</Text>
 				<Text style={styles.text}>
-				  Prep Time: {prepTime} min
+				  Prep Time: {readyInMinutes} min
 				</Text>
 				<TouchableHighlight
 					style={styles.linkButton}
@@ -95,11 +95,12 @@ const RecipeListItem = ({ name, imageUrl, sourceUrl, recipeID, prepTime }) => {
 };
 
 RecipeListItem.propTypes = {
-	name: React.PropTypes.string.isRequired,
+	recipe: React.PropTypes.object.isRequired,
+	title: React.PropTypes.string.isRequired,
 	imageUrl: React.PropTypes.string.isRequired,
 	sourceUrl: React.PropTypes.string.isRequired,
-	recipeID: React.PropTypes.number.isRequired,
-	prepTime: React.PropTypes.number.isRequired,
+	servings: React.PropTypes.number.isRequired,
+	readyInMinutes: React.PropTypes.number.isRequired,
 };
 
 export default RecipeListItem;

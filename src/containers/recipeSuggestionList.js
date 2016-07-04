@@ -10,9 +10,14 @@ import * as actions from '../actions';
 import RecipeSuggestionListItem from '../components/recipeSuggestionListItem';
 
 const styles = StyleSheet.create({
-  list: {
-    marginTop: 40,
+  container: {
+    // borderTopWidth: 0,
+    // marginTop: 0,
+    flex: 1,
     marginBottom: 50,
+  },
+  list: {
+    // marginBottom: 50,
     flex: 1
   }
 })
@@ -44,7 +49,7 @@ class RecipeSuggestionList extends Component {
     }
   }
 
-	_renderSeperator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+	_renderSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
 		return (
 			<View
 				key={`${sectionID}-${rowID}`}
@@ -58,23 +63,25 @@ class RecipeSuggestionList extends Component {
 
   render() {
     return (
-      <ListView
-        contentContainerStyle={styles.list}
-        dataSource={this.state.dataSource}
-        scrollEnabled={false}
-        enableEmptySections={true}
-        renderRow={suggestion => (
-          <RecipeSuggestionListItem
-            key={suggestion.key}
-            recipe={suggestion}
-            image={suggestion.image}
-            likes={suggestion.likes}
-            title={suggestion.title}
-            chooseRecipe={this.handleRecipeChoice.bind(this,suggestion)}
-          />
-        )}
-        renderSeparator={this._renderSeperator}
-      />
+      <View style={styles.container}>
+        <ListView
+          contentContainerStyle={styles.list}
+          dataSource={this.state.dataSource}
+          scrollEnabled={false}
+          enableEmptySections={true}
+          renderRow={suggestion => (
+            <RecipeSuggestionListItem
+              key={suggestion.key}
+              recipe={suggestion}
+              image={suggestion.image}
+              likes={suggestion.likes}
+              title={suggestion.title}
+              chooseRecipe={this.handleRecipeChoice.bind(this,suggestion)}
+            />
+          )}
+          renderSeparator={this._renderSeparator}
+        />
+      </View>
     );
   }
 }
