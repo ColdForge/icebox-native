@@ -76,6 +76,7 @@ class Dashboard extends Component {
 		       >
 		        <TabBarIOS.Item
 		          title="Icebox"
+		          style={styles.tabItem}
 		          icon={require('../../assets/icebox-outline.png')}
 		          selected={this.state.selectedTab === 'icebox'}
 		          onPress={() => {
@@ -87,6 +88,7 @@ class Dashboard extends Component {
 		        </TabBarIOS.Item>
 		        <TabBarIOS.Item
 		          title="Suggestions"
+		          style={styles.tabItem}
 		          icon={require('../../assets/suggestions-outline.png')}
 		          selected={this.state.selectedTab === 'suggestions'}
 		          onPress={() => {
@@ -98,6 +100,7 @@ class Dashboard extends Component {
 		        </TabBarIOS.Item>
 		        <TabBarIOS.Item
 		          title="Input"
+		          style={styles.tabItem}
 		          icon={require('../../assets/input-outline.png')}
 		          selected={this.state.selectedTab === 'input'}
 		          onPress={() => {
@@ -109,6 +112,7 @@ class Dashboard extends Component {
 		        </TabBarIOS.Item>
 		        <TabBarIOS.Item
 		          title="Recipes"
+		          style={styles.tabItem}
 		          icon={require('../../assets/recipes-outline.png')}
 		          selected={this.state.selectedTab === 'pastRecipes'}
 		          onPress={() => {
@@ -120,6 +124,7 @@ class Dashboard extends Component {
 		        </TabBarIOS.Item>
 		        <TabBarIOS.Item
 		          title="Profile"
+		          style={styles.tabItem}
 		          icon={require('../../assets/settings-outline.png')}
 		          selected={this.state.selectedTab === 'settings'}
 		          onPress={() => {
@@ -178,6 +183,9 @@ const styles = StyleSheet.create({
   	fontSize: 44,
   },
   body: {
+  	flex: 1,
+  },
+  tabItem: {
   	flex: 1,
   },
   icon: {

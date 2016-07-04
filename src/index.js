@@ -35,59 +35,7 @@ import Dashboard from './components/dashboard';
 // import Drawer from './containers/drawer';
 // import FoodInput from './containers/foodInput';
 
-class BackButton extends Component {
-	render(){
-		return (
-			<TouchableHighlight
-				onPress={Actions.pop}
-			>
-				<Text>Back</Text>
-			</TouchableHighlight>
-		);
-	}
-}
-
-class TabIcon extends React.Component {
-  render(){
-    return (
-      <Text style={{color: this.props.selected ? "red" :"black"}}>{this.props.title}</Text>
-    );
-  }
-}
-
-class AddItemsButton extends Component {
-	render(){
-		return (
-			<MKButton
-			  style={{
-			  	backgroundColor: 'green',
-			  	position: 'absolute',
-			  	bottom: 10,
-			  	right: 10,
-			  	padding: 8,
-			  	alignItems: 'center',
-		      justifyContent: 'center'
-			  }}
-			  fab={true}
-			  shadowRadius={2}
-			  shadowOffset={{width:0, height:2}}
-			  shadowOpacity={.7}
-			  shadowColor="black"
-			  onPress={() => {
-			    console.log('hi, raised button!');
-			  }}
-			  >
-			  <Text pointerEvents="none"
-			        style={{color: 'white', fontWeight: 'bold',}}>
-			    +
-			  </Text>
-			</MKButton>
-		);
-	}
-}
-
 class iceboxNative extends Component {
-
   render(){
     return (
     	<Provider store={store}>
@@ -120,7 +68,7 @@ const styles = StyleSheet.create({
   appbar: {
   	flex: 0.3,
   	backgroundColor: '#9ED59E',
-  	paddingTop: 30,
+  	// paddingTop: 30,
   	paddingBottom: 10
   },
   back: {

@@ -11,10 +11,13 @@ import RecipeSuggestionListItem from '../components/recipeSuggestionListItem';
 
 const styles = StyleSheet.create({
   container: {
+    // borderTopWidth: 0,
+    // marginTop: 0,
     flex: 1,
+    marginBottom: 50,
   },
   list: {
-    marginBottom: 50,
+    // marginBottom: 50,
     flex: 1
   }
 })
@@ -46,7 +49,7 @@ class RecipeSuggestionList extends Component {
     }
   }
 
-	_renderSeperator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+	_renderSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
 		return (
 			<View
 				key={`${sectionID}-${rowID}`}
@@ -76,7 +79,7 @@ class RecipeSuggestionList extends Component {
               chooseRecipe={this.handleRecipeChoice.bind(this,suggestion)}
             />
           )}
-          renderSeparator={this._renderSeperator}
+          renderSeparator={this._renderSeparator}
         />
       </View>
     );
