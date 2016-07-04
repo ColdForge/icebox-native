@@ -11,7 +11,7 @@ const Icebox = ({ routeToInput }) => (
   <View style={styles.container}>
     <View style={styles.containerInner}>
       <IceboxToolbar routeToInput={routeToInput} />
-      <ScrollView style={styles.list}>
+      <ScrollView contentContainerStyle={styles.list}>
         <VisibleIceboxList />
       </ScrollView>
     </View>
@@ -20,10 +20,12 @@ const Icebox = ({ routeToInput }) => (
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'column',
   },
   containerInner: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'column',
   },
   list: {
     flex: 1
