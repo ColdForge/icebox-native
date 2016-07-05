@@ -114,11 +114,6 @@ class FoodInput extends Component {
   }
 
   submitInputFinalized(){
-    console.log('submitInputFinalized called');
-    // this.setState({
-    //   submittedItems: true,
-    //   isLoading: true
-    // })
     const getToken = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -127,8 +122,8 @@ class FoodInput extends Component {
         console.log('AsyncStorage getToken error: ', error.message);
       }
     }
-    console.log('this.state.goodItems are : ',this.state.goodItems)
-    console.log('this.state.goodItemToggles are : ',this.state.goodItemToggles)
+    // console.log('this.state.goodItems are : ',this.state.goodItems)
+    // console.log('this.state.goodItemToggles are : ',this.state.goodItemToggles)
 
     const itemsToAdd = this.state.goodItems.filter(item => {
       if(this.state.goodItemToggles[item.key] === true){
@@ -136,7 +131,7 @@ class FoodInput extends Component {
       }
       return false;
     })
-    console.log('itemsToAdd are : ',itemsToAdd)
+    // console.log('itemsToAdd are : ',itemsToAdd)
 
     // getToken().then(token => {
     //   fetch(`http://192.168.1.53:8080/api/icebox/native-submit`, {

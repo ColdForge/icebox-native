@@ -10,7 +10,6 @@ import {
 const styles = StyleSheet.create({
 	row: {
 		height: 40,
-		backgroundColor: '#88D795',
 		flexDirection: 'row'
 	},
 	imageContainer: {
@@ -52,6 +51,21 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: 'white'
 	},
+  redRow: {
+    backgroundColor: '#ffa5a5',
+    height: 40,
+    flexDirection: 'row'
+  },
+  orangeRow: {
+    backgroundColor: '#ffb477',
+    height: 40,
+    flexDirection: 'row'
+  },
+  greenRow: {
+    backgroundColor: '#88D795',
+    height: 40,
+    flexDirection: 'row'
+  },
 	redItem: {
 		color: '#EA0B0B',
 		fontWeight: '700',
@@ -113,8 +127,22 @@ const IceboxListItem = ({ styling, name, foodGroup, iconPath, expiration }) => {
 		}
 	}
 
+  const applyRowStyling = (expiration) => {
+    if (expiration <= 3) {
+      return styles.redRow;
+    }
+    if (expiration > 3 && expiration <= 6) {
+      return styles.orangeRow;
+    }
+    if (expiration >= 7) {
+      return styles.greenRow;
+    }
+  }
+
+  const rowStyle = applyRowStyling(expiration);
+
 	return (
-		<View style={styles.row}>
+		<View style={applyRowStyling(expiration)}>
 			<View style={styles.imageContainer}>
 				<Image style={styles.fgIcon} source={iconsMap[foodGroup]} />
 			</View>

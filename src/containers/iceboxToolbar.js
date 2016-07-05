@@ -14,7 +14,6 @@ import SearchBar from 'react-native-search-bar';
 
 const styles = StyleSheet.create({
 	toolbar: {
-		height: 72,
 	},
 	button: {
 		height: 30,
@@ -38,7 +37,6 @@ class IceboxToolbar extends Component {
 	}
 
 	handleSearch(e){
-		console.log('handleSearch called in IceboxToolbar with e of : ',e);
 		this.props.setIceboxSearch(e);
 	}
 
@@ -54,10 +52,8 @@ class IceboxToolbar extends Component {
 		this.props.setSortBy(value)
 	}
 
-  // trying to call this method, which comes from props
 	submitFoods(foodItems) {
 		this.props.addIceboxItems({ foodItems });
-		console.log('Submit foods is firing', foodItems);
 	}
 
 	render() {

@@ -14,10 +14,10 @@ const styles = StyleSheet.create({
     // borderTopWidth: 0,
     // marginTop: 0,
     flex: 1,
-    marginBottom: 50,
+    // marginBottom: 50,
   },
   list: {
-    // marginBottom: 50,
+    // marginBottom: 48,
     flex: 1
   }
 })
@@ -63,25 +63,23 @@ class RecipeSuggestionList extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ListView
-          contentContainerStyle={styles.list}
-          dataSource={this.state.dataSource}
-          scrollEnabled={false}
-          enableEmptySections={true}
-          renderRow={suggestion => (
-            <RecipeSuggestionListItem
-              key={suggestion.key}
-              recipe={suggestion}
-              image={suggestion.image}
-              likes={suggestion.likes}
-              title={suggestion.title}
-              chooseRecipe={this.handleRecipeChoice.bind(this,suggestion)}
-            />
-          )}
-          renderSeparator={this._renderSeparator}
-        />
-      </View>
+      <ListView
+        contentContainerStyle={styles.list}
+        dataSource={this.state.dataSource}
+        scrollEnabled={false}
+        enableEmptySections={true}
+        renderRow={suggestion => (
+          <RecipeSuggestionListItem
+            key={suggestion.key}
+            recipe={suggestion}
+            image={suggestion.image}
+            likes={suggestion.likes}
+            title={suggestion.title}
+            chooseRecipe={this.handleRecipeChoice.bind(this,suggestion)}
+          />
+        )}
+        renderSeparator={this._renderSeparator}
+      />
     );
   }
 }

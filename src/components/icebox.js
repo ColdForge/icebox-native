@@ -9,24 +9,15 @@ import VisibleIceboxList from '../containers/visibleIceboxList';
 
 const Icebox = ({ routeToInput }) => (
   <View style={styles.container}>
-    <View style={styles.containerInner}>
-      <IceboxToolbar routeToInput={routeToInput} />
-      <ScrollView style={styles.list}>
-        <VisibleIceboxList />
-      </ScrollView>
-    </View>
+    <IceboxToolbar routeToInput={routeToInput} />
+    <VisibleIceboxList />
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  containerInner: {
-    flex: 1
-  },
-  list: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'column',
   }
 });
 

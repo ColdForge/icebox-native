@@ -11,10 +11,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
+	list: {
+	}
 })
 
 class IceboxList extends Component {
-	_renderSeperator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+	_renderSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
 		return (
 			<View
 				key={`${sectionID}-${rowID}`}
@@ -32,6 +34,7 @@ class IceboxList extends Component {
 		return (
 			<View style={styles.container}>
 				<ListView
+					style={styles.list}
 					dataSource={ds.cloneWithRows(this.props.contents)}
 					renderRow={(item) => (
 						<IceboxListItem
@@ -43,14 +46,13 @@ class IceboxList extends Component {
 							iconPath={item.iconPath}
 						/>
 					)}
-					renderSeparator={this._renderSeperator}
+					renderSeparator={this._renderSeparator}
 					initialListSize={15}
 				/>
 			</View>
 		);
 	}
 }
-
 
 IceboxList.propTypes = {
 	contents: React.PropTypes.array.isRequired,
