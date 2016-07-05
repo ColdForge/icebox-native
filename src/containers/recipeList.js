@@ -12,15 +12,11 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
-	list: {
-	  marginBottom: 50
-	}
 })
 
 class RecipeList extends Component {
 	constructor(props){
 	  super(props);
-	  console.log('recipes passed into RecipeList are : ',props.recipes);
 	  const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 	  this.state = {
 	    dataSource: ds.cloneWithRows(props.recipes)
@@ -40,11 +36,9 @@ class RecipeList extends Component {
 	}
 
 	render(){
-		console.log('this.props.recipes are : ',this.props.recipes);
 		return (
-			<View style={styles.container}>
 			<ListView
-				contentContainerStyle={styles.list}
+				style={styles.container}
 				dataSource={this.state.dataSource}
 				enableEmptySections={true}
 				renderRow={recipe => (
@@ -60,7 +54,6 @@ class RecipeList extends Component {
 				)}
 				renderSeparator={this._renderSeperator}
 			/>
-			</View>
 		);
 	}
 }

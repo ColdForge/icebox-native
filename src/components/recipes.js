@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
+  ScrollView,
   TabBarIOS,
   Text,
   TouchableHighlight,
@@ -8,6 +9,20 @@ import {
 } from 'react-native';
 import RecipeSuggestionList from '../containers/recipeSuggestionList';
 import RecipeList from '../containers/recipeList';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  tabContent: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  tabText: {
+    color: 'white',
+    margin: 50
+  }
+});
 
 class Recipes extends Component {
 	constructor(props){
@@ -32,6 +47,7 @@ class Recipes extends Component {
        >
         <TabBarIOS.Item
           title="Suggestions"
+          style={styles.container}
           icon={{uri: base64Icon, scale: 4}}
           selected={this.state.selectedTab === 'suggestions'}
           onPress={() => {
@@ -39,10 +55,13 @@ class Recipes extends Component {
               selectedTab: 'suggestions',
             });
           }}>
-          <RecipeSuggestionList />
+          <ScrollView contentContainerStyle={styles.container}>
+            <RecipeSuggestionList />
+          </ScrollView>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Past Recipes"
+          style={styles.container}
           icon={{uri: base64Icon, scale: 4}}
           selected={this.state.selectedTab === 'pastRecipes'}
           onPress={() => {
@@ -56,19 +75,5 @@ class Recipes extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  tabContent: {
-  	flex: 1,
-  	alignItems: 'center'
-  },
-  tabText: {
-  	color: 'white',
-  	margin: 50
-  }
-});
 
 export default Recipes;

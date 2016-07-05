@@ -30,11 +30,9 @@ class Dashboard extends Component {
   }
 	componentDidMount() {
 		if(this.props.suggestions.length === 0){
-      console.log('suggestions in dashboard empty')
       this.props.getRecipeSuggestions();
     }
     if(this.props.recipes.length === 0){
-      console.log('recipes in dashboard empty')
       this.props.getRecipes();
     }
 	}
@@ -187,6 +185,7 @@ const styles = StyleSheet.create({
   },
   tabItem: {
   	flex: 1,
+    marginBottom: 48,
   },
   icon: {
 
@@ -228,26 +227,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, actions)(Dashboard);
-
-// <View style={styles.container}>
-//   <TouchableHighlight
-//       style={styles.cameraButton}
-//       onPress={Actions.scanner}
-//       underlayColor="#88D4F5">
-//         <Text style={styles.buttonText}>My Camera</Text>
-//   </TouchableHighlight>
-//   <TouchableHighlight
-//       style={styles.iceboxButton}
-//       onPress={Actions.icebox}
-//       underlayColor="#88D4F5">
-//         <Text style={styles.buttonText}>My Icebox</Text>
-//   </TouchableHighlight>
-//   <TouchableHighlight
-//       style={styles.recipesButton}
-//       onPress={Actions.recipes}
-//       underlayColor="#E39EBF">
-//         <Text style={styles.buttonText}>My Recipes</Text>
-//   </TouchableHighlight>
-// </View>
-
 
